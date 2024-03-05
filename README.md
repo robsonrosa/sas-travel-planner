@@ -4,11 +4,15 @@
 
 Welcome to the Travel Planner project! This application is designed to make your travel planning experience seamless and enjoyable. Whether you're a frequent globetrotter or planning your dream vacation, this tool is here to assist you in creating the perfect itinerary.
 
+## Documenation
+
+See [Official Documentation](../blob/master/docs/README.md)
+
 ## Roadmap
 
 ### Phase 0 - Design Model and API's
-- [ ] Define documentation
-- [ ] Design models
+- [x] Define documentation
+- [x] Design models
 - [ ] Design database
 - [ ] Define microservices and boundaries
 - [ ] Define communication between backend and frontend
