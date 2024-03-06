@@ -4,8 +4,48 @@ info:
   title: Travel Planning API
   version: 1.0.0
 
+paths:
+  /travel:
+    post:
+      summary: Get travel options based on search term
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                searchTerm:
+                  $ref: '#/components/schemas/SearchTerm'
+      responses:
+        200:
+          description: Stream of events with travel options
+          content:
+            text/event-stream:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    enum:
+                      - destination
+                      - flightplan
+                      - accommodation
+                      - activity
+                      - traveltip
+                      - optimal
+                  result:
+                    oneOf:
+                      - $ref: '#/components/schemas/DestinationOptions'
+                      - $ref: '#/components/schemas/FlightPlanOptions'
+                      - $ref: '#/components/schemas/AccommodationOptions'
+                      - $ref: '#/components/schemas/ActivityOptions'
+                      - $ref: '#/components/schemas/TravelTips'
+                      - $ref: '#/components/schemas/OptimalTravelPlanning'
+
 components:
   schemas:
+
     SearchTerm:
       type: string
       description: Represents the search term used to specify the trip's requirements.
@@ -42,19 +82,6 @@ components:
           type: boolean
           description: Indicates whether the traveler will be accompanied by children.
       example: 'Adventure travel with kids in Europe at December'
-
-    DateRange:
-      type: object
-      description: Represents a range of dates.
-      properties:
-        startDate:
-          type: string
-          format: date
-          description: Start date of the range.
-        endDate:
-          type: string
-          format: date
-          description: End date of the range.
 
     WeatherCriteria:
       type: object
@@ -174,6 +201,19 @@ components:
                   - "INTERMEDIATE"
                   - "ADVANCED"
                   - "FLUENT"
+
+    DateRange:
+      type: object
+      description: Represents a range of dates.
+      properties:
+        startDate:
+          type: string
+          format: date
+          description: Start date of the range.
+        endDate:
+          type: string
+          format: date
+          description: End date of the range.
 
     AccommodationType:
       type: string

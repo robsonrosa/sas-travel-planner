@@ -17,7 +17,7 @@ See [Official Documentation](../blob/master/docs/README.md)
 - [x] Define microservices and boundaries
 - [x] Define communication between backend and frontend
 - [ ] Define communication between microservices
-- [ ] Define endpoints and interactions
+- [x] Define endpoints and interactions
 - [ ] Define how to deploy frontend application (simple nginx image or Azure Static Web Apps)
 
 ### Phase 1 - Frontend + Mock API
