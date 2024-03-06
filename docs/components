@@ -34,7 +34,7 @@ paths:
                       - activity
                       - traveltip
                       - optimal
-                  result:
+                  data:
                     oneOf:
                       - $ref: '#/components/schemas/DestinationOptions'
                       - $ref: '#/components/schemas/FlightPlanOptions'
@@ -434,7 +434,7 @@ components:
           properties:
             destination:
               $ref: '#/components/schemas/Destination'
-            flight:
+            flightPlan:
               $ref: '#/components/schemas/FlightPlan'
             accommodation:
               $ref: '#/components/schemas/Accommodation'
