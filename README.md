@@ -13,9 +13,9 @@ See [Official Documentation](../blob/master/docs/README.md)
 ### Phase 0 - Design Model and API's
 - [x] Define documentation
 - [x] Design models
-- [ ] Design database
-- [ ] Define microservices and boundaries
-- [ ] Define communication between backend and frontend
+- [x] Design database
+- [x] Define microservices and boundaries
+- [x] Define communication between backend and frontend
 - [ ] Define communication between microservices
 - [ ] Define endpoints and interactions
 - [ ] Define how to deploy frontend application (simple nginx image or Azure Static Web Apps)
@@ -26,6 +26,7 @@ See [Official Documentation](../blob/master/docs/README.md)
 - [ ] Create simple search criteria page
 - [ ] Create simple results page
 - [ ] Create Dockerfile 
+- [ ] Configure linter and prettier
 
 ### Phase 2 - Frontend + Backend + Mock Data
 - [ ] Create Dockerfile for each deployable artifact
@@ -50,3 +51,4 @@ See [Official Documentation](../blob/master/docs/README.md)
 - [ ] Consider using Azure Log Analytics
 - [ ] Consider using Azure Key Vault
 - [ ] Add repository badges
+- [ ] Add SonarQube

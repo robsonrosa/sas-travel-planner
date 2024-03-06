@@ -1,48 +1,15 @@
-# SAS Travel Planner
+openapi: 3.0.0
 
-## Features
+info:
+  title: Travel Planning API
+  version: 1.0.0
 
-### Search Criteria Extraction
-- Based on a single text, the system provides appropriate resource criteria (other features).
-
-### Destination Recommendation
-- Based on criteria like budget, date, weather, language, and culture, the system provides destination options.
-
-### Flight Recommendation
-- Based on criteria like budget, date, and destination, the system provides flight options.
-
-### Accommodation Recommendation
-- Based on criteria like budget, date, destination, and lifestyle, the system provides accommodation options.
-
-### Activities Recommendation
-- Based on criteria like budget, date, destination, and lifestyle, the system provides activity options.
-
-### Travel Tips Recommendation
-- Based on criteria like budget, date, and destination, the system provides travel tips, including documentation, vaccines, and warnings.
-
-### User Authentication
-- Provides user registration and authentication.
-
-## Models
-
-### SearchTerm
-- Simple string input using natural language.
-
-```yaml
 components:
   schemas:
     SearchTerm:
       type: string
       description: Represents the search term used to specify the trip's requirements.
-```
 
-### TravelPlanningCriteria
-- The result of criteria extraction from SearchTerm.
-- The input for every travel resource option provider.
-
-```yaml
-components:
-  schemas:
     TravelPlanningCriteria:
       type: object
       description: Represents the criteria used for planning a trip.
@@ -131,7 +98,7 @@ components:
         accommodationPreferences:
           type: array
           items:
-            $ref: '#/components/schemas/AccomodationType'
+            $ref: '#/components/schemas/AccommodationType'
         foodPreferences:
           type: array
           items:
@@ -147,7 +114,6 @@ components:
               - "FINE_DINING"
               - "FOOD_TRUCK"
               - "VEGETARIAN_VEGAN"
-          description: List of preferred dining options.
 
     ActivityCriteria:
       type: object
@@ -209,10 +175,10 @@ components:
                   - "ADVANCED"
                   - "FLUENT"
 
-    AccomodationType:
+    AccommodationType:
       type: string
       enum:
-        - "APARTMENT_HOTEL"docs/REA
+        - "APARTMENT_HOTEL"
         - "B_AND_B"
         - "BOUTIQUE_HOTEL"
         - "GUEST_HOUSE"
@@ -246,45 +212,36 @@ components:
         - "EXPERT"
         - "MODERATE"
       description: Difficulty level of the activity.
-```
 
-### Destination
-- The result of the search for destination options for the travel.
-- It includes a score to identify how well it matches the search criteria.
-- It includes the search criteria itself.
-
-```yaml
-components:
-  schemas:
     DestinationOptions:
       allOf:
         - $ref: '#/components/schemas/TravelResultBase'
         - type: object
-            properties:
-              options:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Destination'
+          properties:
+            options:
+              type: array
+              items:
+                $ref: '#/components/schemas/Destination'
         
-
     Destination:
       allOf:
         - $ref: '#/components/schemas/TravelOptionBase'
         - type: object
-            description: Represents a trip destination recommendation.
-            properties:
-              destination:
-                type: string
-                description: The recommended destination for the trip.
-              code:
-                type: string
-                description: The unique identifier of the destination.
+          description: Represents a trip destination recommendation.
+          properties:
+            destination:
+              type: string
+              description: The recommended destination for the trip.
+            code:
+              type: string
+              description: The unique identifier of the destination.
     
     TravelResultBase:
       type: object
+      properties:
         criteria:
           $ref: '#/components/schemas/TravelPlanningCriteria'
-
+          
     TravelOptionBase:
       type: object
       properties:
@@ -292,7 +249,7 @@ components:
           $ref: '#/components/schemas/Score'
         rating:
           $ref: '#/components/schemas/Rating'
-
+          
     Rating:
       type: number
       minimum: 1
@@ -303,41 +260,31 @@ components:
       type: number
       minimum: 1
       maximum: 5
-      description: 'The similarity score indicating how well the result matches the user's criteria.'
-```
+      description: 'The similarity score indicating how well the result matches the criteria.'
 
-### Flight
-- The result of the search for flight options for the travel.
-- It includes a score to identify how well it matches the search criteria.
-- It includes the search criteria itself.
-
-```yaml
-components:
-  schemas:
     FlightPlanOptions:
       allOf:
         - $ref: '#/components/schemas/TravelResultBase'
         - type: object
-            properties:
-              options:
-                type: array
-                items:
-                  $ref: '#/components/schemas/FlightPlan'
+          properties:
+            options:
+              type: array
+              items:
+                $ref: '#/components/schemas/FlightPlan'
         
-
     FlightPlan:
       allOf:
         - $ref: '#/components/schemas/TravelOptionBase'
         - type: object
-            description: Represents a flight plan recommendation.
-            properties:
-              returnFlight:
-                $ref: '#/components/schemas/Flight'
-                description: Represents the return flight of the trip
-              outwardFlight:
-                $ref: '#/components/schemas/Flight'
-                description: Represents the outward flight of the trip
-
+          description: Represents a flight plan recommendation.
+          properties:
+            returnFlight:
+              $ref: '#/components/schemas/Flight'
+              description: Represents the return flight of the trip
+            outwardFlight:
+              $ref: '#/components/schemas/Flight'
+              description: Represents the outward flight of the trip
+            
     Flight:
       type: object
       properties:
@@ -345,121 +292,92 @@ components:
           type: string
           description: unique identifier of the flight
         departure:
-          type: DateTime
+          type: string
+          format: date-time
         arrival:
-          type: DateTime
+          type: string
+          format: date-time
         airport:
           $ref: '#/components/schemas/Airport'
     
     Airport:
       type: object
-        properties:
-          code: 
-            type: string
-            pattern: '^[A-Z]{3}$'
-            description: unique identifier of the airport containing 3 capital letters
-          name:
-            type: string
-          address:
-            type: string
-```
+      properties:
+        code: 
+          type: string
+          pattern: '^[A-Z]{3}$'
+          description: unique identifier of the airport containing 3 capital letters
+        name:
+          type: string
+        address:
+          type: string
 
-### Accommodation
-- The result of the search for accommodation options for the travel.
-- It includes a score to identify how well it matches the search criteria.
-- It includes the search criteria itself.
-
-```yaml
-components:
-  schemas:
-    AccomodationOptions:
+    AccommodationOptions:
       allOf:
         - $ref: '#/components/schemas/TravelResultBase'
         - type: object
-            properties:
-              options:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Accomodation'
+          properties:
+            options:
+              type: array
+              items:
+                $ref: '#/components/schemas/Accommodation'
         
-
-    Accomodation:
+    Accommodation:
       allOf:
         - $ref: '#/components/schemas/TravelOptionBase'
         - type: object
-            description: Represents an accomodation recommendation.
-            properties:
-              code: 
-                type: string
-                description: unique identifier of the accomodation
-              name:
-                type: string
-              address:
-                type: string
-              type:
-                $ref: '#/components/schema/AccomodationType'
-```
+          description: Represents an accommodation recommendation.
+          properties:
+            code: 
+              type: string
+              description: unique identifier of the accommodation
+            name:
+              type: string
+            address:
+              type: string
+            type:
+              $ref: '#/components/schemas/AccommodationType'
 
-### Activity
-- The result of the search for activity options for the travel.
-- It includes a score to identify how well it matches the search criteria.
-- It includes the search criteria itself.
-
-```yaml
-components:
-  schemas:
     ActivityOptions:
       allOf:
         - $ref: '#/components/schemas/TravelResultBase'
         - type: object
-            properties:
-              options:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Activity'
+          properties:
+            options:
+              type: array
+              items:
+                $ref: '#/components/schemas/Activity'
         
-
     Activity:
       allOf:
         - $ref: '#/components/schemas/TravelOptionBase'
         - type: object
-            description: Represents an activity recommendation.
-            properties:
-              code: 
-                type: string
-                description: unique identifier of the activity
-              name:
-                type: string
-              description:
-                type: string
-              address:
-                type: string
-              type:
-                $ref: '#/components/schema/ActivityType'
-              difficult:
-                $ref: '#/components/schema/ActivityDifficult'
-```
+          description: Represents an activity recommendation.
+          properties:
+            code: 
+              type: string
+              description: unique identifier of the activity
+            name:
+              type: string
+            description:
+              type: string
+            address:
+              type: string
+            type:
+              $ref: '#/components/schemas/ActivityType'
+            difficulty:
+              $ref: '#/components/schemas/ActivityDifficulty'
 
-### TravelTip
-- Simple string text containing useful information for a specific travel.
-- The result of the search for activity options for the travel.
-- It includes a score to identify how well it matches the search criteria.
-- It includes the search criteria itself.
-
-```yaml
-components:
-  schemas:
     TravelTips:
       allOf:
         - $ref: '#/components/schemas/TravelResultBase'
         - type: object
-            properties:
-              options:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TravelTip'
+          properties:
+            options:
+              type: array
+              items:
+                $ref: '#/components/schemas/TravelTip'
         
-
     TravelTip:
       allOf:
         - $ref: '#/components/schemas/TravelOptionBase'
@@ -467,16 +385,7 @@ components:
           properties:
             content:
               type: string 
-```
 
-### Travel
-- Represents the whole information given a search criteria.
-- It includes destination options, flight options, accommodation options, activity options, and travel tips.
-- It includes the search criteria itself.
-
-```yaml
-components:
-  schemas:
     OptimalTravelPlanning:
       allOf:
         - $ref: '#/components/schemas/TravelResultBase'
@@ -487,8 +396,8 @@ components:
               $ref: '#/components/schemas/Destination'
             flight:
               $ref: '#/components/schemas/FlightPlan'
-            accomodation:
-              $ref: '#/components/schemas/Accomodation'
+            accommodation:
+              $ref: '#/components/schemas/Accommodation'
             activities:
               type: array
               items:
@@ -497,38 +406,3 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/TravelTip'
-        
-
-```
-
-## Database
-
-### CosmosDB
-
-- NoSQL
-- Compatibility with Spring Boot Reactive
-- Azure Cloud ready
-
-## Microservices
-
-- Initally a modularized monolith
-- Spring Boot
-- WebFlux
-  - The search tends to be a computationally expensive blocking process
-  - Non blocking database access (using R2DBC)
-  - Easy Server Sent Events (SSE) implementation
-- Modules:
-  - TravelService (entrypoint)
-  - CriteriaService
-  - DestinationService
-  - FlightService
-  - AccommodationService
-  - ActivityService
-  - TravelTipService
-
-## Frontend
-
-- React.Js
-- Javascript
-- EventSource to communicate with SSE
-
