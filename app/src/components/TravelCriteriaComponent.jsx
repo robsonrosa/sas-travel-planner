@@ -1,11 +1,13 @@
+import { ResultContainer, ResultHeader, LoadingMessage } from '@styles/ResultStyle';
+
 const TravelCriteria = ({ criteria }) => {
   const loading = criteria == null;
 
   return (
-    <div>
-      <h2>Travel Criteria</h2>
+    <ResultContainer>
+      <ResultHeader>Travel Criteria</ResultHeader>
       {loading ? (
-        <div>Loading...</div>
+        <LoadingMessage>Loading...</LoadingMessage>
       ) : (
         <div>
           <ul>
@@ -54,7 +56,7 @@ const TravelCriteria = ({ criteria }) => {
           </ul>
         </div>
       )}
-    </div>
+    </ResultContainer>
   );
 };
 

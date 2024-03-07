@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import SearchResult from '@components/SearchResult';
-import SearchComponent from '@components/SearchComponent';
+import Planning from '@components/PlanningComponent';
+import Search from '@components/SearchComponent';
 
 const SearchPage = () => {
 
@@ -8,8 +8,8 @@ const SearchPage = () => {
   
   return (
     <div>
-      <SearchComponent onSearch={setResult} />
-      <SearchResult result={result} />
+      <Search onSearch={setResult} />
+      <Planning result={result} />
     </div>
   );
 };

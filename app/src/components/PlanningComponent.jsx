@@ -1,11 +1,11 @@
-import TravelCriteria from "./TravelCriteria";
-import DestinationsResult from "./DestinationsResult";
-import FlightPlansResult from "./FlightPlansResult";
-import AccommodationsResult from "./AccomodationsResult";
-import ActivitiesResult from "./ActivitiesResult";
-import TravelTipsResult from "./TravelTipsResult";
+import TravelCriteria from "./TravelCriteriaComponent";
+import DestinationsResult from "./DestinationsResultComponent";
+import FlightPlansResult from "./FlightPlansResultComponent";
+import AccommodationsResult from "./AccomodationsResultComponent";
+import ActivitiesResult from "./ActivitiesResultComponent";
+import TravelTipsResult from "./TravelTipsResultComponent";
 
-const SearchResult = ({ result }) => {
+const Planning = ({ result }) => {
 
   if (!result?.started) {
     return;
@@ -30,4 +30,4 @@ const SearchResult = ({ result }) => {
   );
 };
 
-export default SearchResult;
+export default Planning;

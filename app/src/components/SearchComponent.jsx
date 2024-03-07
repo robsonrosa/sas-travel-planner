@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import useSearch from '@hooks/useSearch';
 
-const SearchComponent = ({ onSearch }) => {
+const Search = ({ onSearch }) => {
   const { result, searchTerm, setSearchTerm, handleButtonClick } = useSearch();
 
   useEffect(() => {
@@ -21,4 +21,4 @@ const SearchComponent = ({ onSearch }) => {
   );
 };
 
-export default SearchComponent;
+export default Search;
