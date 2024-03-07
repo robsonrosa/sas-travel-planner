@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import SearchPage from './SearchPage';
-import { setupMockSSE } from './utils/mock-sse';
+import SearchPage from '@pages/SearchPage';
+import { setupMockSSE } from '@utils/MockEventSource';
 
 if (process.env.NODE_ENV === 'development') {
   setupMockSSE(2000);

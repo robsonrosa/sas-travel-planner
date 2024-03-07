@@ -53,12 +53,46 @@ function generateRandomFutureDate() {
 }
 
 function generateArray(objectSupplier) {
-  const numberOfExecutions = 10;
+  const numberOfExecutions = Math.random() * 10;
   return Array.from({ length: numberOfExecutions }, objectSupplier);
 }
 
 const criteria = {
-
+  searchTerm: '',
+  weather: {
+    temperature: {
+      min: 1,
+      max: 15
+    },
+    conditions: []
+  },
+  language: {
+    languageProficiencies: []
+  },
+  budget: {
+    classification: 'LOW'
+  },
+  lifestyle: {
+    accommodationPreferences: [],
+    foodPreferences: []
+  },
+  departureDateRange: {
+    startDate: generateRandomFutureDate(),
+    endDate: generateRandomFutureDate()
+  },
+  arrivalDateRange: {
+    startDate: generateRandomFutureDate(),
+    endDate: generateRandomFutureDate()
+  },
+  activity: {
+    activityPreferences: [],
+    difficultyLevel: 'EASY'
+  },
+  culture: {
+    culturalPreferences: ['ETHNIC_DIVERSITY']
+  },
+  withPets: Math.random() > 0.5,
+  withChildren: Math.random() > 0.5,
 }
 
 function getOption() {
@@ -128,7 +162,7 @@ const destinations = {
   options: generateArray(getDestination)
 }
 
-const flightplans = {
+const flightPlans = {
   criteria,
   options: generateArray(getFlightPlan)
 }
@@ -157,27 +191,21 @@ const optimal = {
   tips: travelTips
 }
 
-const DEFAULT = {
-  criteria,
-  options: [{
-    ...getOption(),
-  }]
-}
-
 const mockData = [
+  { type: 'criteria', data: criteria },
   { type: 'destination', data: destinations },
-  { type: 'flightplan', data: flightplans },
+  { type: 'flightplan', data: flightPlans },
   { type: 'accommodation', data: accommodations },
   { type: 'activity', data: activities },
   { type: 'traveltip', data: travelTips },
   { type: 'optimal', data: optimal },
 ];
 
-export const setupMockSSE = () => {
+export const setupMockSSE = (interval) => {
 
   new MockEvent({
     url: `${process.env.REACT_APP_SERVER_URL}/api/travel`,
-    setInterval: 3000,
+    setInterval: interval,
     responses: mockData
   });
   window.EventSource = EventSource;
