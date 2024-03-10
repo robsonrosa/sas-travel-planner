@@ -1,93 +1,73 @@
 package br.com.sas.travel.planner.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import org.springframework.stereotype.Service;
 
 import br.com.sas.travel.accommodation.service.AccommodationService;
 import br.com.sas.travel.activity.service.ActivityService;
+import br.com.sas.travel.criteria.model.TravelPlanningCriteria;
 import br.com.sas.travel.criteria.service.CriteriaService;
+import br.com.sas.travel.destination.model.Destination;
 import br.com.sas.travel.destination.service.DestinationService;
 import br.com.sas.travel.flight.service.FlightService;
+import br.com.sas.travel.planner.model.OptimalTravelPlanning;
 import br.com.sas.travel.planner.model.TravelPlanning;
 import br.com.sas.travel.tips.service.TipService;
-import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
-@RequiredArgsConstructor
 public class TravelService {
 
-	private final CriteriaService criteriaService;
-	private final DestinationService destinationService;
-	private final FlightService flightService;
-	private final AccommodationService accommodationService;
-	private final ActivityService activityService;
-	private final TipService tipService;
+	private final CriteriaService criteriaService = new CriteriaService();
+	private final DestinationService destinationService = new DestinationService();
+	private final FlightService flightService = new FlightService();
+	private final AccommodationService accommodationService = new AccommodationService();
+	private final ActivityService activityService = new ActivityService();
+	private final TipService tipService = new TipService();
 
-	public Flux<TravelPlanning> plan(String searchTerm) {
+	public Flux<TravelPlanning<?>> plan(String searchTerm) {
 		return criteriaService.search(searchTerm)
-				.flatMapMany(criteria -> {
-					var criteriaResponse = TravelPlanning.criteria(criteria);
+				.flatMapMany(criteria -> planWith(criteria)
+						.startWith(TravelPlanning.criteria(criteria)));
+	}
 
-					return destinationService.search(criteria)
-							.flatMapMany(destinations -> {
-								var optimalDestination = destinations.getOptions().get(0);
-								var criteriaWithDestination = criteria.withDestinationCode(optimalDestination.getCode());
+	private Flux<TravelPlanning<?>> planWith(TravelPlanningCriteria criteria) {
 
-								var partialData = List.of(
-										flightService.search(criteriaWithDestination).map(TravelPlanning::flight),
-										accommodationService.search(criteriaWithDestination).map(TravelPlanning::accommodation),
-										activityService.search(criteriaWithDestination).map(TravelPlanning::activity),
-										tipService.search(criteriaWithDestination).map(TravelPlanning::tip)
-								);
+		return destinationService.search(criteria)
+				.flatMapMany(destinations -> {
+					// TODO: get optimal by highest score
+					var optimalDestination = destinations.getOptions().get(0);
+					var criteriaWithDestination = criteria.withDestinationCode(optimalDestination.getCode());
 
-								return Flux.merge(partialData)
-										.then(Mono.just(TravelPlanning.optimal(optimalDestination)));
+					var partialData = List.of(
+							Mono.just(TravelPlanning.destination(destinations)),
+							flightService.search(criteriaWithDestination).map(TravelPlanning::flight),
+							accommodationService.search(criteriaWithDestination).map(TravelPlanning::accommodation),
+							activityService.search(criteriaWithDestination).map(TravelPlanning::activity),
+							tipService.search(criteriaWithDestination).map(TravelPlanning::tip)
+					);
 
-							}).startWith(criteriaResponse);
+					return Flux.merge(partialData)
+							.collectList()
+							.map(emitOptimalResult(optimalDestination))
+							.flatMapMany(Flux::fromIterable);
+
 				});
 	}
 
-	//	public Flux<TravelPlanningResponse> plan(String searchTerm) {
-	//		return Flux.create(fluxSink -> {
-	//
-	//		});
-	//
-	//		Mono<TravelPlanningCriteria> criteriaMono =  criteriaService.search(searchTerm);
-	//		criteriaMono.map(criteria -> {
-	//			// emit event "get criteria"
-	//			Mono<DestinationOptions> destinationMono =  destinationService.search(criteria);
-	//			destinationMono.map(destinations -> {
-	//				// emit event "get destination"
-	//				var optimalDestination = destinations.getOptions().get(0);
-	//				var criteriaWithDestination = criteria.toBuilder()
-	//						.destinationCode(optimalDestination.getCode())
-	//						.build();
-	//				Mono<FlightPlanOptions> flightMono =  flightService.search(criteriaWithDestination);
-	//				Mono<AccommodationOptions> accommodationMono =  accommodationService.search(criteriaWithDestination);
-	//				Mono<ActivityOptions> activityMono =  activityService.search(criteriaWithDestination);
-	//				Mono<TravelTips> tipMono =  tipService.search(criteriaWithDestination);
-	//
-	//				flightMono.map(flightPlanOptions -> {
-	//					// emit event "get flightPlanOptions"
-	//				})
-	//				accommodationMono.map(accommodationOptions -> {
-	//					// emit event "get accommodationOptions"
-	//				})
-	//				activityMono.map(activityOptions -> {
-	//					// emit event "get activityOptions"
-	//				})
-	//				tipMono.map(travelTips -> {
-	//					// emit event "get travelTips"
-	//				})
-	//
-	//				// after all emit event "finished"
-	//
-	//			});
-	//		});
-	//
-	//	}
+	private static Function<List<TravelPlanning<?>>, ArrayList<TravelPlanning<?>>> emitOptimalResult(Destination optimalDestination) {
+		return list -> {
+			var concat = new ArrayList<>(list);
+			// TODO: add other optimal
+			concat.add(TravelPlanning.optimal(OptimalTravelPlanning.builder()
+					.destination(optimalDestination)
+					.build()));
+			return concat;
+		};
+	}
 
 }

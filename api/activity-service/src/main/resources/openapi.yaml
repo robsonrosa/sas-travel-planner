@@ -4,55 +4,60 @@ info:
   title: Travel Planning API
   version: 1.0.0
 
+servers:
+  - description: Travel Planner API
+    url: 'https://travelplanner.sas.com.br/api/v1'
+    variables:
+      stage:
+        default: production
+        enum:
+          - production
+          - staging
+          - qa
+  - description: Local
+    url: '{schema}://{host}:{port}{path}'
+    variables:
+      schema:
+        default: https
+        enum:
+          - https
+          - http
+      host:
+        default: localhost
+      port:
+        default: '8080'
+      path:
+        default: /api/v1
+
 paths:
-  /travel:
+  /activity:
     post:
-      summary: Get travel options based on search term
+      summary: Get activity options based on criteria
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TravelPlanningRequest'
+              $ref: '#/components/schemas/TravelPlanningCriteria'
       responses:
         '200':
-          description: Stream of events with travel options
+          description: Stream of events with activity options
           content:
             text/event-stream:
               schema:
-                $ref: '#/components/schemas/TravelPlanningResponse'
+                type: array
+                format: event-stream
+                items:
+                  $ref: '#/components/schemas/ActivityOptionsResponse'
 
 components:
   schemas:
 
-    TravelPlanningRequest:
+    ActivityOptionsResponse:
       type: object
       properties:
-        searchTerm:
-          $ref: '#/components/schemas/SearchTerm'
-
-    TravelPlanningResponse:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-            - criteria
-            - destination
-            - flightplan
-            - accommodation
-            - activity
-            - traveltip
-            - optimal
         data:
-          oneOf:
-            - $ref: '#/components/schemas/TravelPlanningCriteria'
-            - $ref: '#/components/schemas/DestinationOptions'
-            - $ref: '#/components/schemas/FlightPlanOptions'
-            - $ref: '#/components/schemas/AccommodationOptions'
-            - $ref: '#/components/schemas/ActivityOptions'
-            - $ref: '#/components/schemas/TravelTips'
-            - $ref: '#/components/schemas/OptimalTravelPlanning'
+          $ref: '#/components/schemas/ActivityOptions'
 
     SearchTerm:
       type: string
@@ -80,6 +85,9 @@ components:
           $ref: '#/components/schemas/ActivityCriteria'
         culture:
           $ref: '#/components/schemas/CulturalCriteria'
+        destinationCode:
+          type: string
+          description: Code of the most scored destination
         withPets:
           type: boolean
           description: Indicates whether the traveler will be accompanied by pets.
@@ -194,17 +202,20 @@ components:
         languageProficiencies:
           type: array
           items:
-            type: object
-            properties:
-              language:
-                type: string
-              proficiency:
-                type: string
-                enum:
-                  - "BASIC"
-                  - "INTERMEDIATE"
-                  - "ADVANCED"
-                  - "FLUENT"
+            $ref: '#/components/schemas/LanguageProficiency'
+
+    LanguageProficiency:
+      type: object
+      properties:
+        language:
+          type: string
+        proficiency:
+          type: string
+          enum:
+            - "BASIC"
+            - "INTERMEDIATE"
+            - "ADVANCED"
+            - "FLUENT"
 
     DateRange:
       type: object
@@ -257,35 +268,6 @@ components:
         - "MODERATE"
       description: Difficulty level of the activity.
 
-    DestinationOptions:
-      allOf:
-        - $ref: '#/components/schemas/TravelResultBase'
-        - type: object
-          properties:
-            options:
-              type: array
-              items:
-                $ref: '#/components/schemas/Destination'
-
-    Destination:
-      allOf:
-        - $ref: '#/components/schemas/TravelOptionBase'
-        - type: object
-          description: Represents a trip destination recommendation.
-          properties:
-            destination:
-              type: string
-              description: The recommended destination for the trip.
-            code:
-              type: string
-              description: The unique identifier of the destination.
-
-    TravelResultBase:
-      type: object
-      properties:
-        criteria:
-          $ref: '#/components/schemas/TravelPlanningCriteria'
-
     TravelOptionBase:
       type: object
       properties:
@@ -306,88 +288,15 @@ components:
       maximum: 5
       description: 'The similarity score indicating how well the result matches the criteria.'
 
-    FlightPlanOptions:
-      allOf:
-        - $ref: '#/components/schemas/TravelResultBase'
-        - type: object
-          properties:
-            options:
-              type: array
-              items:
-                $ref: '#/components/schemas/FlightPlan'
-
-    FlightPlan:
-      allOf:
-        - $ref: '#/components/schemas/TravelOptionBase'
-        - type: object
-          properties:
-            returnFlight:
-              $ref: '#/components/schemas/Flight'
-            outwardFlight:
-              $ref: '#/components/schemas/Flight'
-
-    Flight:
-      type: object
-      properties:
-        code:
-          type: string
-          description: unique identifier of the flight
-        departure:
-          type: string
-          format: date-time
-        arrival:
-          type: string
-          format: date-time
-        airport:
-          $ref: '#/components/schemas/Airport'
-
-    Airport:
-      type: object
-      properties:
-        code:
-          type: string
-          pattern: '^[A-Z]{3}$'
-          description: unique identifier of the airport containing 3 capital letters
-        name:
-          type: string
-        address:
-          type: string
-
-    AccommodationOptions:
-      allOf:
-        - $ref: '#/components/schemas/TravelResultBase'
-        - type: object
-          properties:
-            options:
-              type: array
-              items:
-                $ref: '#/components/schemas/Accommodation'
-
-    Accommodation:
-      allOf:
-        - $ref: '#/components/schemas/TravelOptionBase'
-        - type: object
-          description: Represents an accommodation recommendation.
-          properties:
-            code:
-              type: string
-              description: unique identifier of the accommodation
-            name:
-              type: string
-            address:
-              type: string
-            type:
-              $ref: '#/components/schemas/AccommodationType'
-
     ActivityOptions:
-      allOf:
-        - $ref: '#/components/schemas/TravelResultBase'
-        - type: object
-          properties:
-            options:
-              type: array
-              items:
-                $ref: '#/components/schemas/Activity'
+      type: object
+      properties:
+        criteria:
+          $ref: '#/components/schemas/TravelPlanningCriteria'
+        options:
+          type: array
+          items:
+            $ref: '#/components/schemas/Activity'
 
     Activity:
       allOf:
@@ -408,42 +317,3 @@ components:
               $ref: '#/components/schemas/ActivityType'
             difficulty:
               $ref: '#/components/schemas/ActivityDifficulty'
-
-    TravelTips:
-      allOf:
-        - $ref: '#/components/schemas/TravelResultBase'
-        - type: object
-          properties:
-            options:
-              type: array
-              items:
-                $ref: '#/components/schemas/TravelTip'
-
-    TravelTip:
-      allOf:
-        - $ref: '#/components/schemas/TravelOptionBase'
-        - type: object
-          properties:
-            content:
-              type: string
-
-    OptimalTravelPlanning:
-      allOf:
-        - $ref: '#/components/schemas/TravelResultBase'
-        - type: object
-          description: Represents the best travel option based on search criteria.
-          properties:
-            destination:
-              $ref: '#/components/schemas/Destination'
-            flightPlan:
-              $ref: '#/components/schemas/FlightPlan'
-            accommodation:
-              $ref: '#/components/schemas/Accommodation'
-            activities:
-              type: array
-              items:
-                $ref: '#/components/schemas/Activity'
-            tips:
-              type: array
-              items:
-                $ref: '#/components/schemas/TravelTip'

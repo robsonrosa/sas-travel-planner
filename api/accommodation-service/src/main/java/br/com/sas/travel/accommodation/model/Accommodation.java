@@ -2,10 +2,11 @@ package br.com.sas.travel.accommodation.model;
 
 import java.math.BigDecimal;
 
-import org.openapitools.model.AccommodationType;
-
+import br.com.sas.travel.accommodation.api.model.AccommodationType;
 import lombok.Builder;
+import lombok.Data;
 
+@Data
 @Builder
 public class Accommodation {
 

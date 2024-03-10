@@ -17,6 +17,7 @@
 	<properties>
 		<api-spec.file>openapi.yaml</api-spec.file>
 		<api-spec.dir>${project.basedir}/src/main/resources</api-spec.dir>
+		<project.default.package>br.com.sas.travel.accommodation</project.default.package>
 	</properties>
 
 	<dependencies>
@@ -33,14 +34,11 @@
 				<artifactId>openapi-generator-maven-plugin</artifactId>
 				<configuration>
 					<inputSpec>${api-spec.dir}/${api-spec.file}</inputSpec>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>16</source>
-					<target>16</target>
+					<configOptions>
+						<apiPackage>${project.default.package}.api</apiPackage>
+						<modelPackage>${project.default.package}.api.model</modelPackage>
+						<invokerPackage>${project.default.package}.api.invoker</invokerPackage>
+					</configOptions>
 				</configuration>
 			</plugin>
 		</plugins>
