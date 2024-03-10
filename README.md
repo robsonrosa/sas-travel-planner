@@ -21,16 +21,39 @@ See [Official Documentation](../blob/master/docs/README.md)
 - [ ] Define how to deploy frontend application (simple nginx image or Azure Static Web Apps)
 
 ### Phase 1 - Frontend + Mock API
-- [ ] Create React.Js project
+- [x] Create React.Js project
 - [ ] Create simple login page
-- [ ] Create simple search criteria page
-- [ ] Create simple results page
+- [x] Create simple search criteria page
+- [x] Create simple results page
 - [ ] Create Dockerfile 
 - [ ] Configure linter and prettier
 
 ### Phase 2 - Frontend + Backend + Mock Data
 - [ ] Create Dockerfile for each deployable artifact
-- [ ] To be defined in Phase 0 
+- [x] Java + Maven + Spring Boot + Spring Reactive
+- [x] Parent project
+- [x] Module boilerplate travel-service (entrypoint)
+- [x] Module boilerplate accommodation-service
+- [x] Module boilerplate activity-service
+- [x] Module boilerplate criteria-service
+- [x] Module boilerplate destination-service
+- [x] Module boilerplate flight-service
+- [x] Module boilerplate tips-service
+- [x] Dummy endpoint to integrate with frontend
+- [ ] Module implementation travel-service (entrypoint)
+- [ ] Module implementation accommodation-service
+- [ ] Module implementation activity-service
+- [ ] Module implementation criteria-service
+- [ ] Module implementation destination-service
+- [ ] Module implementation flight-service
+- [ ] Module implementation tips-service
+- [ ] Microservice travel-service (entrypoint)
+- [ ] Microservice accommodation-service
+- [ ] Microservice activity-service
+- [ ] Microservice criteria-service
+- [ ] Microservice destination-service
+- [ ] Microservice flight-service
+- [ ] Microservice tips-service
 
 ### Phase 3 - Frontend + Backend + Storage
 - [ ] To be defined in Phase 0 

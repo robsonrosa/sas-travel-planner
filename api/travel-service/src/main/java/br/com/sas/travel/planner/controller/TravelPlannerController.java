@@ -5,14 +5,13 @@ import org.openapitools.model.TravelPlanningCriteria;
 import org.openapitools.model.TravelPlanningRequest;
 import org.openapitools.model.TravelPlanningResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-public class TravelController implements TravelApi {
+public class TravelPlannerController implements TravelApi {
 
 	@Override
 	public ResponseEntity<TravelPlanningResponse> travelPost(TravelPlanningRequest request) {
@@ -23,3 +22,4 @@ public class TravelController implements TravelApi {
 
 	}
 }
+
