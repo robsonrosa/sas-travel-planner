@@ -18,6 +18,7 @@
 		<api-spec.file>openapi.yaml</api-spec.file>
 		<api-spec.dir>${project.basedir}/src/main/resources</api-spec.dir>
 		<project.default.package>br.com.sas.travel.flight</project.default.package>
+		<start-class>br.com.sas.travel.flight.FlightServiceApplication</start-class>
 	</properties>
 
 	<dependencies>

@@ -29,7 +29,7 @@ See [Official Documentation](../blob/master/docs/README.md)
 - [ ] Configure linter and prettier
 
 ### Phase 2 - Frontend + Backend + Mock Data
-- [ ] Create Dockerfile for each deployable artifact
+- [x] Create Dockerfile for each deployable artifact
 - [x] Java + Maven + Spring Boot + Spring Reactive
 - [x] Parent project
 - [x] Module boilerplate travel-service (entrypoint)
