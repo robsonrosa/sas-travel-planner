@@ -10,7 +10,7 @@
 	</parent>
 
 	<artifactId>accommodation-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Accommodation Service</name>
 
@@ -19,6 +19,13 @@
 		<api-spec.dir>${project.basedir}/src/main/resources</api-spec.dir>
 	</properties>
 
+	<dependencies>
+		<dependency>
+			<groupId>br.com.sas</groupId>
+			<artifactId>criteria-model</artifactId>
+		</dependency>
+	</dependencies>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -26,6 +33,14 @@
 				<artifactId>openapi-generator-maven-plugin</artifactId>
 				<configuration>
 					<inputSpec>${api-spec.dir}/${api-spec.file}</inputSpec>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>16</source>
+					<target>16</target>
 				</configuration>
 			</plugin>
 		</plugins>

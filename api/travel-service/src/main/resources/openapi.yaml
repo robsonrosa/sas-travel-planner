@@ -15,12 +15,15 @@ paths:
             schema:
               $ref: '#/components/schemas/TravelPlanningRequest'
       responses:
-        '200':
-          description: Stream of events with travel options
+        "200":
+          description: acknowledged
           content:
             text/event-stream:
               schema:
-                $ref: '#/components/schemas/TravelPlanningResponse'
+                type: array
+                format: event-stream
+                items:
+                  $ref: '#/;mcomponents/schemas/TravelPlanningResponse'
 
 components:
   schemas:

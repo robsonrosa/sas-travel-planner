@@ -10,7 +10,7 @@
 	</parent>
 
 	<artifactId>destination-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Destination Service</name>
 
@@ -18,6 +18,13 @@
 		<api-spec.file>openapi.yaml</api-spec.file>
 		<api-spec.dir>${project.basedir}/src/main/resources</api-spec.dir>
 	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>br.com.sas</groupId>
+			<artifactId>criteria-model</artifactId>
+		</dependency>
+	</dependencies>
 
 	<build>
 		<plugins>
