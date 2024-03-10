@@ -26,7 +26,7 @@ public class TravelPlanning<T> {
 	private T data;
 
 	public static <T extends TravelPlanningCriteria> TravelPlanning<T> criteria(T data) {
-		return new TravelPlanning<T>(CRITERIA, data);
+		return new TravelPlanning<>(CRITERIA, data);
 	}
 
 	public static <T extends DestinationOptions> TravelPlanning<T> destination(T data) {

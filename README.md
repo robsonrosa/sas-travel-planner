@@ -40,13 +40,13 @@ See [Official Documentation](../blob/master/docs/README.md)
 - [x] Module boilerplate flight-service
 - [x] Module boilerplate tips-service
 - [x] Dummy endpoint to integrate with frontend
-- [ ] Module implementation travel-service (entrypoint)
-- [ ] Module implementation accommodation-service
-- [ ] Module implementation activity-service
-- [ ] Module implementation criteria-service
-- [ ] Module implementation destination-service
-- [ ] Module implementation flight-service
-- [ ] Module implementation tips-service
+- [x] Module implementation travel-service (entrypoint)
+- [x] Module implementation accommodation-service
+- [x] Module implementation activity-service
+- [x] Module implementation criteria-service
+- [x] Module implementation destination-service
+- [x] Module implementation flight-service
+- [x] Module implementation tips-service
 - [ ] Microservice travel-service (entrypoint)
 - [ ] Microservice accommodation-service
 - [ ] Microservice activity-service
