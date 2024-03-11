@@ -54,3 +54,11 @@ resource "azurerm_cosmosdb_sql_container" "activities" {
   database_name         = azurerm_cosmosdb_sql_database.db.name
   partition_key_path    = "/code"
 }
+
+resource "azurerm_cosmosdb_sql_container" "tips" {
+  name                  = "tips"
+  resource_group_name   = azurerm_resource_group.rg.name
+  account_name          = azurerm_cosmosdb_account.account.name
+  database_name         = azurerm_cosmosdb_sql_database.db.name
+  partition_key_path    = "/destinationCode"
+}
