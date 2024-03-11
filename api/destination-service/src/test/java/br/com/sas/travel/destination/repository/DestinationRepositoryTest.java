@@ -7,32 +7,31 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import br.com.sas.travel.destination.model.Destination;
 import reactor.test.StepVerifier;
+import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 @SpringBootTest
 class DestinationRepositoryTest {
 
 	@Autowired
-	DestinationRepository destinationRepository;
+	DestinationRepository repository;
 
 	@AfterEach
 	public void cleanUp() {
-		destinationRepository.deleteAll().subscribe();
+		repository.deleteAll().subscribe();
 	}
 
 	@Test
-	public void givenDestinationIsCreated_whenCallFindByCode_thenDestinationIsFound() {
+	public void givenEntityIsCreated_whenCallFindById_thenEntityIsFound() {
 
-		var destination = new Destination();
-		destination.setDestination("Brazil");
-		destination.setRating(5.0);
-		destination.setScore(4.5);
-		destination.setCode("BR");
+		var factory = new PodamFactoryImpl();
+		var entity = factory.manufacturePojo(Destination.class);
+		var id = entity.getCode();
 
-		var result = destinationRepository.save(destination)
-				.then(destinationRepository.findById("BR"));
+		var result = repository.save(entity)
+				.then(repository.findById(id));
 
 		StepVerifier.create(result)
-				.expectNext(destination)
+				.expectNext(entity)
 				.verifyComplete();
 	}
 

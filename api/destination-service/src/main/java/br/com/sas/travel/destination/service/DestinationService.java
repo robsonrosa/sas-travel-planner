@@ -21,7 +21,7 @@ public class DestinationService {
 
 	public Mono<DestinationOptions> search(TravelPlanningCriteria criteria) {
 
-		return searchDestinationsBasedOnCriteria(criteria)
+		return searchBasedOnCriteria(criteria)
 				.collectList()
 				.map(destinations -> DestinationOptions.builder()
 						.criteria(criteria)
@@ -30,7 +30,7 @@ public class DestinationService {
 	}
 
 	// TODO: implement using criteria
-	public Flux<Destination> searchDestinationsBasedOnCriteria(TravelPlanningCriteria criteria) {
+	public Flux<Destination> searchBasedOnCriteria(TravelPlanningCriteria criteria) {
 		return repository
 				.findAll()
 				.collectList()
