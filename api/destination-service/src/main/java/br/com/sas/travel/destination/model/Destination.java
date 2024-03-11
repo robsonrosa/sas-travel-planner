@@ -2,17 +2,23 @@ package br.com.sas.travel.destination.model;
 
 import java.math.BigDecimal;
 
+import org.springframework.data.annotation.Id;
+
+import com.azure.spring.data.cosmos.core.mapping.Container;
+
 import lombok.Data;
 
 @Data
+@Container(containerName = "destinations")
 public class Destination {
 
-	private BigDecimal score;
+	@Id
+	private String code;
 
-	private BigDecimal rating;
+	private Double score;
+
+	private Double rating;
 
 	private String destination;
-
-	private String code;
 
 }

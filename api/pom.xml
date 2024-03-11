@@ -43,6 +43,7 @@
 		<hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
 		<mapstruct.version>1.5.5.Final</mapstruct.version>
 		<lombok.version>1.18.30</lombok.version>
+		<azure-spring-data-cosmos.version>5.10.0</azure-spring-data-cosmos.version>
 	</properties>
 
 	<dependencies>
@@ -145,6 +146,11 @@
 				<groupId>br.com.sas</groupId>
 				<artifactId>criteria-model</artifactId>
 				<version>${travel.planner.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.azure</groupId>
+				<artifactId>azure-spring-data-cosmos</artifactId>
+				<version>${azure-spring-data-cosmos.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

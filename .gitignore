@@ -29,3 +29,6 @@ target
 # IDE Files
 .idea
 *.iml
+
+# ENV Files
+*.env*
