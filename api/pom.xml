@@ -11,7 +11,7 @@
 
 	<groupId>br.com.sas</groupId>
 	<artifactId>travel-planner</artifactId>
-	<version>${travel.planner.version}</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Travel Planner Parent</name>
 

@@ -16,18 +16,20 @@ import br.com.sas.travel.flight.service.FlightService;
 import br.com.sas.travel.planner.model.OptimalTravelPlanning;
 import br.com.sas.travel.planner.model.TravelPlanning;
 import br.com.sas.travel.tips.service.TipService;
+import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
+@RequiredArgsConstructor
 public class TravelService {
 
-	private final CriteriaService criteriaService = new CriteriaService();
-	private final DestinationService destinationService = new DestinationService();
-	private final FlightService flightService = new FlightService();
-	private final AccommodationService accommodationService = new AccommodationService();
-	private final ActivityService activityService = new ActivityService();
-	private final TipService tipService = new TipService();
+	private final CriteriaService criteriaService;
+	private final DestinationService destinationService;
+	private final FlightService flightService;
+	private final AccommodationService accommodationService;
+	private final ActivityService activityService;
+	private final TipService tipService;
 
 	public Flux<TravelPlanning<?>> plan(String searchTerm) {
 		return criteriaService.search(searchTerm)
