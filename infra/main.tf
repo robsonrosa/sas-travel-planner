@@ -36,21 +36,13 @@ resource "azurerm_cosmosdb_sql_container" "destinations" {
   resource_group_name   = azurerm_resource_group.rg.name
   account_name          = azurerm_cosmosdb_account.account.name
   database_name         = azurerm_cosmosdb_sql_database.db.name
-  partition_key_path    = "/destinations"
+  partition_key_path    = "/code"
+}
 
-  indexing_policy {
-    indexing_mode = "consistent"
-
-    included_path {
-      path = "/*"
-    }
-
-    included_path {
-      path = "/included/?"
-    }
-
-    excluded_path {
-      path = "/excluded/?"
-    }
-  }
+resource "azurerm_cosmosdb_sql_container" "accommodations" {
+  name                  = "accommodations"
+  resource_group_name   = azurerm_resource_group.rg.name
+  account_name          = azurerm_cosmosdb_account.account.name
+  database_name         = azurerm_cosmosdb_sql_database.db.name
+  partition_key_path    = "/type"
 }
