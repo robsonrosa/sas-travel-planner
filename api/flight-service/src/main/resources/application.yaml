@@ -1,5 +1,9 @@
 server:
   port: 8080
 spring:
-  webflux:
-    base-path: /api/v1
+  data:
+    cosmos:
+      uri: ${COSMOS_URI}
+      key: ${COSMOS_PRIMARY_KEY}
+      secondaryKey: ${COSMOS_SECONDARY_KEY}
+      databaseName: ${COSMOS_DATABASE_NAME}

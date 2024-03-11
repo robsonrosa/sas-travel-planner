@@ -1,19 +1,26 @@
 package br.com.sas.travel.flight.model;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
-import lombok.Builder;
+import org.springframework.data.annotation.Id;
+
+import com.azure.spring.data.cosmos.core.mapping.Container;
+
 import lombok.Data;
 
 @Data
-@Builder
+@Container(containerName = "flights")
 public class Flight {
 
+	@Id
 	private String code;
 
-	private OffsetDateTime departure;
+	private LocalDateTime departure;
 
-	private OffsetDateTime arrival;
+	private LocalDateTime arrival;
 
-	private Airport airport;
+	private Airport departureAirport;
+
+	private Airport arrivalAirport;
+
 }

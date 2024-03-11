@@ -1,15 +1,15 @@
 package br.com.sas.travel.flight.model;
 
-import java.math.BigDecimal;
-
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class FlightPlan {
 
-	private BigDecimal score;
+	private Double score;
 
-	private BigDecimal rating;
+	private Double rating;
 
 	private Flight returnFlight;
 

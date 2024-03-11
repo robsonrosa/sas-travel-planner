@@ -62,3 +62,19 @@ resource "azurerm_cosmosdb_sql_container" "tips" {
   database_name         = azurerm_cosmosdb_sql_database.db.name
   partition_key_path    = "/destinationCode"
 }
+
+resource "azurerm_cosmosdb_sql_container" "flights" {
+  name                  = "flights"
+  resource_group_name   = azurerm_resource_group.rg.name
+  account_name          = azurerm_cosmosdb_account.account.name
+  database_name         = azurerm_cosmosdb_sql_database.db.name
+  partition_key_path    = "/code"
+}
+
+resource "azurerm_cosmosdb_sql_container" "airports" {
+  name                  = "airports"
+  resource_group_name   = azurerm_resource_group.rg.name
+  account_name          = azurerm_cosmosdb_account.account.name
+  database_name         = azurerm_cosmosdb_sql_database.db.name
+  partition_key_path    = "/code"
+}

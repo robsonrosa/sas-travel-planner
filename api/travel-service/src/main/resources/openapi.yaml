@@ -424,7 +424,9 @@ components:
         arrival:
           type: string
           format: date-time
-        airport:
+        departureAirport:
+          $ref: '#/components/schemas/Airport'
+        arrivalAirport:
           $ref: '#/components/schemas/Airport'
 
     Airport:
