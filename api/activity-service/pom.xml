@@ -26,6 +26,10 @@
 			<groupId>br.com.sas</groupId>
 			<artifactId>criteria-model</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.azure</groupId>
+			<artifactId>azure-spring-data-cosmos</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

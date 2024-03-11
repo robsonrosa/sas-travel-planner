@@ -1,17 +1,21 @@
 package br.com.sas.travel.activity.model;
 
-import java.math.BigDecimal;
+import org.springframework.data.annotation.Id;
+
+import com.azure.spring.data.cosmos.core.mapping.Container;
 
 import lombok.Data;
 
 @Data
+@Container(containerName = "activities")
 public class Activity {
 
-	private BigDecimal score;
-
-	private BigDecimal rating;
-
+	@Id
 	private String code;
+
+	private Double score;
+
+	private Double rating;
 
 	private String name;
 

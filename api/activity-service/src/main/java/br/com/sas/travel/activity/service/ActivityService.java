@@ -1,21 +1,42 @@
 package br.com.sas.travel.activity.service;
 
+import static br.com.sas.travel.activity.service.RandomOrderComparator.comparator;
+import static br.com.sas.travel.activity.service.RandomOrderComparator.predicate;
+
 import org.springframework.stereotype.Service;
 
+import br.com.sas.travel.activity.model.Activity;
 import br.com.sas.travel.activity.model.ActivityOptions;
+import br.com.sas.travel.activity.repository.ActivityRepository;
 import br.com.sas.travel.criteria.model.TravelPlanningCriteria;
+import lombok.RequiredArgsConstructor;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 @Service
+@RequiredArgsConstructor
 public class ActivityService {
 
+	private final ActivityRepository repository;
+
 	public Mono<ActivityOptions> search(TravelPlanningCriteria criteria) {
-		var factory = new PodamFactoryImpl();
-		return Mono.just(factory.manufacturePojo(ActivityOptions.class)
-				.toBuilder()
-				.criteria(criteria)
-				.build());
+		return searchBasedOnCriteria(criteria)
+				.collectList()
+				.map(activities -> ActivityOptions.builder()
+						.criteria(criteria)
+						.options(activities)
+						.build());
+	}
+
+	private Flux<Activity> searchBasedOnCriteria(TravelPlanningCriteria criteria) {
+		return repository
+				.findAll()
+				.collectList()
+				.map(list -> list.stream()
+						.sorted(comparator())
+						.filter(predicate())
+						.toList())
+				.flatMapMany(Flux::fromIterable);
 	}
 
 }
