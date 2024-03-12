@@ -18,14 +18,14 @@ See [Official Documentation](../blob/master/docs/README.md)
 - [x] Define communication between backend and frontend
 - [ ] Define communication between microservices
 - [x] Define endpoints and interactions
-- [ ] Define how to deploy frontend application (simple nginx image or Azure Static Web Apps)
+- [x] Define how to deploy frontend application 
 
 ### Phase 1 - Frontend + Mock API
 - [x] Create React.Js project
 - [ ] Create simple login page
 - [x] Create simple search criteria page
 - [x] Create simple results page
-- [ ] Create Dockerfile 
+- [x] Create Dockerfile 
 - [ ] Configure linter and prettier
 
 ### Phase 2 - Frontend + Backend + Mock Data
@@ -47,7 +47,7 @@ See [Official Documentation](../blob/master/docs/README.md)
 - [x] Module implementation destination-service
 - [x] Module implementation flight-service
 - [x] Module implementation tips-service
-- [ ] Microservice travel-service (entrypoint)
+- [x] Microservice travel-service (entrypoint)
 - [ ] Microservice accommodation-service
 - [ ] Microservice activity-service
 - [ ] Microservice criteria-service
@@ -56,15 +56,24 @@ See [Official Documentation](../blob/master/docs/README.md)
 - [ ] Microservice tips-service
 
 ### Phase 3 - Frontend + Backend + Storage
-- [ ] To be defined in Phase 0 
+- [x] Create destination container and spring mapping
+- [x] Create flight container and spring mapping
+- [x] Create airport container and spring mapping
+- [x] Create accommodation container and spring mapping
+- [x] Create activity container and spring mapping
+- [x] Create travel tips container and spring mapping
+- [x] Configure modules to connect to the database
+- [x] Add integration test to validate repository
+- [x] Add integration test to validate mappings
+- [ ] Configure testcontainer for integration tests
 
 ### Phase 4 - Frontend + Backend + Storage + Cloud Deployment
-- [ ] Create resource group 
-- [ ] Create and configure database (to be defined in Phase 0)
-- [ ] Create and configure ACR
-- [ ] Customize Dockerfiles to match Cloud requirements
-- [ ] Deploy frontend application (to be defined in Phase 0)
-- [ ] Create and configure AKS 
+- [x] Create resource group 
+- [x] Create and configure database
+- [x] Create and configure ACR
+- [x] Customize Dockerfiles to match Cloud requirements
+- [x] Deploy frontend application as nginx
+- [x] Create and configure AKS 
 - [ ] Create and configure Github Actions
 
 ### Phase 5 - Enhancements
