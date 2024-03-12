@@ -177,12 +177,22 @@
 								<generateModelTests>false</generateModelTests>
 								<generatorName>spring</generatorName>
 								<ignoreFileOverride>${project.basedir}/.openapi-generator-ignore</ignoreFileOverride>
+								<typeMappings>
+									<typeMapping>dateTime=LocalDateTime</typeMapping>
+									<typeMapping>date=LocalDate</typeMapping>
+								</typeMappings>
+								<importMappings>
+									<importMapping>LocalDateTime=java.time.LocalDateTime</importMapping>
+									<importMapping>LocalDate=java.time.LocalDate</importMapping>
+								</importMappings>
 								<configOptions>
 									<useSpringBoot3>true</useSpringBoot3>
 									<useJakartaEe>true</useJakartaEe>
 									<hateoas>false</hateoas>
 									<delegatePattern>true</delegatePattern>
 									<reactive>true</reactive>
+									<java8>true</java8>
+									<dateLibrary>custom</dateLibrary>
 								</configOptions>
 							</configuration>
 						</execution>
