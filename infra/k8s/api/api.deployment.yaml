@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: travel-planner-api
+  namespace: planner
 spec:
   replicas: 1
   selector:
@@ -15,10 +16,16 @@ spec:
       containers:
         - name: travel-planner-api
           image: sastravelplanneracr.azurecr.io/travel-planner-api:1.0.0-SNAPSHOT
+          envFrom:
+            - secretRef:
+                name: db-secret
+            - configMapRef:
+                name: db-configmap
           ports:
             - containerPort: 8080
       imagePullSecrets:
         - name: acr-secret
+
 ---
 apiVersion: v1
 kind: Service
@@ -32,5 +39,3 @@ spec:
       port: 80
       targetPort: 8080
   type: LoadBalancer
-
-
