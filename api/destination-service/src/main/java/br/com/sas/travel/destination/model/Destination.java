@@ -1,16 +1,12 @@
 package br.com.sas.travel.destination.model;
 
-import org.springframework.data.annotation.Id;
-
-import com.azure.spring.data.cosmos.core.mapping.Container;
-
+import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Container(containerName = "destinations")
+@Builder(toBuilder = true)
 public class Destination {
 
-	@Id
 	private String code;
 
 	private Double score;

@@ -20,4 +20,9 @@ public class RandomOrderComparator<T> implements Comparator<T> {
 	public static <T> Predicate<T> predicate() {
 		return value -> random.nextBoolean();
 	}
+
+	public static Double score() {
+		return random.nextDouble(0,5);
+	}
+
 }

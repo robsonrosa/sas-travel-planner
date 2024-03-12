@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import br.com.sas.travel.destination.model.Destination;
+import br.com.sas.travel.destination.entity.DestinationEntity;
 import reactor.test.StepVerifier;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
@@ -17,14 +17,14 @@ class DestinationRepositoryTest {
 
 	@AfterEach
 	public void cleanUp() {
-		repository.deleteAll().subscribe();
+		StepVerifier.create(repository.deleteAll()).verifyComplete();
 	}
 
 	@Test
 	public void givenEntityIsCreated_whenCallFindById_thenEntityIsFound() {
 
 		var factory = new PodamFactoryImpl();
-		var entity = factory.manufacturePojo(Destination.class);
+		var entity = factory.manufacturePojo(DestinationEntity.class);
 		var id = entity.getCode();
 
 		var result = repository.save(entity)

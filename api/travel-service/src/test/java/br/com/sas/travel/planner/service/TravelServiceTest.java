@@ -79,7 +79,7 @@ class TravelServiceTest {
 		var searchTerm = "teste";
 		setupFor(searchTerm);
 
-		var result = service.plan("teste");
+		var result = service.plan(searchTerm);
 
 		var responseTypes = EnumSet.noneOf(TravelDataType.class);
 		Function<EnumSet<TravelDataType>, Predicate<TravelPlanning<?>>> validator = (acceptableTypes) -> (response) -> {

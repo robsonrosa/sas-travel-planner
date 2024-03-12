@@ -4,12 +4,12 @@ import org.springframework.stereotype.Repository;
 
 import com.azure.spring.data.cosmos.repository.ReactiveCosmosRepository;
 
-import br.com.sas.travel.activity.model.Activity;
+import br.com.sas.travel.activity.entity.ActivityEntity;
 import reactor.core.publisher.Flux;
 
 @Repository
-public interface ActivityRepository extends ReactiveCosmosRepository<Activity, String> {
+public interface ActivityRepository extends ReactiveCosmosRepository<ActivityEntity, String> {
 
-	Flux<Activity> findByAddress(String address);
+	Flux<ActivityEntity> findByAddress(String address);
 
 }

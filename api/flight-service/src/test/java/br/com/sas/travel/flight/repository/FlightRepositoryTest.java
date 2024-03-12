@@ -1,13 +1,11 @@
 package br.com.sas.travel.flight.repository;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import br.com.sas.travel.flight.model.Flight;
+import br.com.sas.travel.flight.entity.FlightEntity;
 import reactor.test.StepVerifier;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
@@ -19,14 +17,14 @@ class FlightRepositoryTest {
 
 	@AfterEach
 	public void cleanUp() {
-		repository.deleteAll().subscribe();
+		StepVerifier.create(repository.deleteAll()).verifyComplete();
 	}
 
 	@Test
 	public void givenEntityIsCreated_whenCallFindById_thenEntityIsFound() {
 
 		var factory = new PodamFactoryImpl();
-		var entity = factory.manufacturePojo(Flight.class);
+		var entity = factory.manufacturePojo(FlightEntity.class);
 		var id = entity.getCode();
 
 		var result = repository.save(entity)

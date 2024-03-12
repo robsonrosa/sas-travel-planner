@@ -40,6 +40,7 @@ public class TravelService {
 	private Flux<TravelPlanning<?>> planWith(TravelPlanningCriteria criteria) {
 
 		return destinationService.search(criteria)
+				.filter(destinationOptions -> !destinationOptions.getOptions().isEmpty())
 				.flatMapMany(destinations -> {
 					// TODO: get optimal by highest score
 					var optimalDestination = destinations.getOptions().get(0);

@@ -1,2 +1,11 @@
 server:
   port: 8080
+spring:
+  data:
+    cosmos:
+      uri: ${COSMOS_URI}
+      key: ${COSMOS_PRIMARY_KEY}
+      secondaryKey: ${COSMOS_SECONDARY_KEY}
+      databaseName: ${COSMOS_DATABASE_NAME}
+  main:
+    allow-bean-definition-overriding: true

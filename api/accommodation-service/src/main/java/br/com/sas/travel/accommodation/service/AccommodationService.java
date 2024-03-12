@@ -2,9 +2,13 @@ package br.com.sas.travel.accommodation.service;
 
 import static br.com.sas.travel.accommodation.service.RandomOrderComparator.comparator;
 import static br.com.sas.travel.accommodation.service.RandomOrderComparator.predicate;
+import static br.com.sas.travel.accommodation.service.RandomOrderComparator.score;
+
+import java.util.function.Function;
 
 import org.springframework.stereotype.Service;
 
+import br.com.sas.travel.accommodation.entity.AccommodationEntity;
 import br.com.sas.travel.accommodation.model.Accommodation;
 import br.com.sas.travel.accommodation.model.AccommodationOptions;
 import br.com.sas.travel.accommodation.repository.AccommodationRepository;
@@ -21,6 +25,8 @@ public class AccommodationService {
 
 	public Mono<AccommodationOptions> search(TravelPlanningCriteria criteria) {
 		return searchBasedOnCriteria(criteria)
+				.map(AccommodationMapper.INSTANCE::map)
+				.map(applyScore(criteria))
 				.collectList()
 				.map(accommodations -> AccommodationOptions.builder()
 						.criteria(criteria)
@@ -28,7 +34,11 @@ public class AccommodationService {
 						.build());
 	}
 
-	private Flux<Accommodation> searchBasedOnCriteria(TravelPlanningCriteria criteria) {
+	private Function<Accommodation, Accommodation> applyScore(TravelPlanningCriteria criteria) {
+		return accommodation -> accommodation.toBuilder().score(score()).build();
+	}
+
+	private Flux<AccommodationEntity> searchBasedOnCriteria(TravelPlanningCriteria criteria) {
 		return repository
 				.findAll()
 				.collectList()

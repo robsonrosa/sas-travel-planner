@@ -1,16 +1,12 @@
 package br.com.sas.travel.flight.model;
 
-import org.springframework.data.annotation.Id;
-
-import com.azure.spring.data.cosmos.core.mapping.Container;
-
+import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Container(containerName = "airports")
+@Builder(toBuilder = true)
 public class Airport {
 
-	@Id
 	private String code;
 
 	private String name;
