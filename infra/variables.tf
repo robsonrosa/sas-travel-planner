@@ -1,25 +1,13 @@
+variable "resource_group_name" {
+  type        = string
+  default     = "sas"
+  description = "Name of the main resource group for this aplication"
+}
+
 variable "location" {
   type        = string
   default     = "westus2"
   description = "Resource group location"
-}
-
-variable "db_account_name" {
-  type        = string
-  default     = "travel-service-account"
-  description = "Cosmos database account for travel planning application"
-}
-
-variable "db_name" {
-  type        = string
-  default     = "travel-planning"
-  description = "Cosmos database for travel planning application"
-}
-
-variable "throughput" {
-  type        = number
-  default     = 100
-  description = "Cosmos db database throughput"
 }
 
 variable "ARM_SUBSCRIPTION_ID" {
