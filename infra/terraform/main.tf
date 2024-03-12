@@ -18,3 +18,8 @@ module "aks" {
   client_secret       = var.client_secret
 }
 
+module "dns" {
+  source              = "./dns"
+  resource_group_name = var.resource_group_name
+}
+
