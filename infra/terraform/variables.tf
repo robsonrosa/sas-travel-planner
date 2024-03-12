@@ -10,15 +10,15 @@ variable "location" {
   description = "Resource group location"
 }
 
-variable "ARM_SUBSCRIPTION_ID" {
+variable "subscription_id" {
   type = string
 }
-variable "ARM_TENANT_ID" {
+variable "tenant_id" {
   type = string
 }
-variable "ARM_CLIENT_ID" {
+variable "client_id" {
   type = string
 }
-variable "ARM_CLIENT_SECRET" {
+variable "client_secret" {
   type = string
 }
