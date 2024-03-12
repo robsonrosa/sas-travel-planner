@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: travel-planner-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: travel-planner-web
+  template:
+    metadata:
+      labels:
+        app: travel-planner-web
+    spec:
+      containers:
+        - name: travel-planner-web
+          image: sastravelplanneracr.azurecr.io/travel-planner-web:1.0.0-SNAPSHOT
+          ports:
+            - containerPort: 8080
+      imagePullSecrets:
+        - name: acr-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: travel-planner-web-service
+spec:
+  selector:
+    app: travel-planner-web
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer
+
+
