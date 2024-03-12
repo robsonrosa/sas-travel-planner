@@ -4,4 +4,4 @@ metadata:
   name: web-configmap
   namespace: planner
 data:
-  REACT_APP_SERVER_URL: travel-planner-api-service.default.svc.cluster.local:80
+  REACT_APP_SERVER_URL: travel-planner-api-service.planner.svc.cluster.local:80

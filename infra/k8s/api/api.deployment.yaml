@@ -31,6 +31,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: travel-planner-api-service
+  namespace: planner
 spec:
   selector:
     app: travel-planner-api

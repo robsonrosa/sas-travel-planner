@@ -20,7 +20,7 @@ spec:
             - configMapRef:
                 name: web-configmap
           ports:
-            - containerPort: 8080
+            - containerPort: 80
       imagePullSecrets:
         - name: acr-secret
 
@@ -29,11 +29,12 @@ apiVersion: v1
 kind: Service
 metadata:
   name: travel-planner-web-service
+  namespace: planner
 spec:
   selector:
     app: travel-planner-web
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 8080
+      targetPort: 80
   type: LoadBalancer
