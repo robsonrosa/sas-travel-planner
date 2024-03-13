@@ -14,13 +14,11 @@ jobs:
     
       - name: Set Branch
         id: branch
-        run: echo "branch=${GITHUB_REF#/refs/heads/}" >> "$GITHUB_ENV"
-        
+        run: echo ::set-output name=version::${GITHUB_REF#/refs/heads/}
+      
       - name: Set Version
         id: maven
-        uses: CptMokoena/maven-get-version-action@1.0.3
-        with:
-          path: api/pom.xml
+        run: echo ::set-output name=version::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
 
       - name: Maven Setup
         uses: actions/setup-java@v3
