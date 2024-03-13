@@ -1,7 +1,7 @@
 FROM openjdk:21-jdk
 
 WORKDIR /api
-COPY travel-service/target/travel-service*.jar ./travel-service.jar
+COPY **/target/travel-service*.jar ./travel-service.jar
 EXPOSE 8080
 
 ENV COSMOS_URI ""
