@@ -54,9 +54,7 @@ jobs:
 
       - name: Deploy API
         run: >-
-          helm upgrade travel-planner-api \
-            ./infra/helm/charts/api \
-            --install \ 
+          helm upgrade --install travel-planner-api ./infra/helm/charts/api \
             --namespace planner \
             --create-namespace \
             --set image.registry=${{ vars.DOCKER_REGISTRY }} \
