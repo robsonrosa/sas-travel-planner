@@ -30,10 +30,38 @@ jobs:
         run: mvn -f api/pom.xml clean install -DskipTests
 
       - name: Docker Setup
-        run: echo ${{secrets.DOCKER_PASSWORD}} | docker login ${{vars.DOCKER_REGISTRY}} -u ${{secrets.DOCKER_USERNAME}} --password-stdin
+        run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login ${{ vars.DOCKER_REGISTRY }} -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
       - name: Docker Build
-        run: cd api && docker build -t ${{vars.DOCKER_REGISTRY}}/travel-planner-api:${{ steps.maven.outputs.version }} .
+        run: cd api && docker build -t ${{ vars.DOCKER_REGISTRY }}/travel-planner-api:${{ steps.maven.outputs.version }} .
 
       - name: Docker Push
-        run: docker push ${{vars.DOCKER_REGISTRY}}/travel-planner-api:${{ steps.maven.outputs.version }}
+        run: docker push ${{ vars.DOCKER_REGISTRY }}/travel-planner-api:${{ steps.maven.outputs.version }}
+
+      - name: Azure Login
+        uses: Azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Azure Context
+        uses: Azure/aks-set-context@v2
+        with:
+          resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
+          cluster-name: ${{ secrets.AZURE_CLUSTER_NAME }}
+
+      - name: Helm Install
+        uses: Azure/setup-helm@v1
+
+      - name: Deploy API
+        run: helm upgrade travel-planner-api \
+                  ./infra/helm/charts/api \
+                  --install \ 
+                  --namespace planner
+                  --create-namespace
+                  --set image.registry=${{ vars.DOCKER_REGISTRY }} \
+                  --set image.repository=travel-planner-api
+                  --set image.tag=${{ steps.maven.outputs.version }} \
+                  --set name=travel-planner-api \
+                  --set configmap.data.COSMOS_URI=${{ vars.DATABASE_URI }} \
+                  --set configmap.data.COSMOS_DATABASE_NAME=${{ vars.DATABASE_NAME }} \
+                  --set configmap.data.COSMOS_PRIMARY_KEY=${{ vars.DATABASE_SECRET }} \
