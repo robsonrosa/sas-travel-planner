@@ -6,7 +6,7 @@ Welcome to the Travel Planner project! This application is designed to make your
 
 ## Documenation
 
-See [Official Documentation](../blob/master/docs/README.md)
+See [Official Documentation](../main/docs/README.md)
 
 ## Roadmap
 
@@ -84,3 +84,5 @@ See [Official Documentation](../blob/master/docs/README.md)
 - [ ] Consider using Azure Key Vault
 - [ ] Add repository badges
 - [ ] Add SonarQube
+- [ ] Configure Static Public IP
+- [ ] Enable HTTPS
