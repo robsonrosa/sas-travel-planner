@@ -16,6 +16,9 @@ spec:
       containers:
         - name: travel-planner-api
           image: sastravelplanneracr.azurecr.io/travel-planner-api:1.0.0-SNAPSHOT
+          env:
+            - name: ALLOWED_ORIGIN
+              value: http://www.sastravelplanner.online,http://sastravelplanner.online
           envFrom:
             - secretRef:
                 name: db-secret

@@ -1,6 +1,8 @@
 server:
   port: 8080
 spring:
+  cors:
+    allowed-origins: ${ALLOWED_ORIGIN:http://localhost:3000,http://www.sastravelplanner.online}
   data:
     cosmos:
       uri: ${COSMOS_URI}
