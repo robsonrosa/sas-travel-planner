@@ -66,4 +66,4 @@ jobs:
             --set name=travel-planner-api \
             --set configmap.data.COSMOS_URI=${{ vars.DATABASE_URI }} \
             --set configmap.data.COSMOS_DATABASE_NAME=${{ vars.DATABASE_NAME }} \
-            --set configmap.data.COSMOS_PRIMARY_KEY=${{ vars.DATABASE_SECRET }}
+            --set secret.data.COSMOS_PRIMARY_KEY=${{ vars.DATABASE_SECRET }}
