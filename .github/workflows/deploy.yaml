@@ -53,15 +53,16 @@ jobs:
         uses: Azure/setup-helm@v1
 
       - name: Deploy API
-        run: helm upgrade travel-planner-api \
-                  ./infra/helm/charts/api \
-                  --install \ 
-                  --namespace planner \
-                  --create-namespace \
-                  --set image.registry=${{ vars.DOCKER_REGISTRY }} \
-                  --set image.repository=travel-planner-api \
-                  --set image.tag=${{ steps.maven.outputs.version }} \
-                  --set name=travel-planner-api \
-                  --set configmap.data.COSMOS_URI=${{ vars.DATABASE_URI }} \
-                  --set configmap.data.COSMOS_DATABASE_NAME=${{ vars.DATABASE_NAME }} \
-                  --set configmap.data.COSMOS_PRIMARY_KEY=${{ vars.DATABASE_SECRET }}
+        run: |
+          helm upgrade travel-planner-api \
+            ./infra/helm/charts/api \
+            --install \ 
+            --namespace planner \
+            --create-namespace \
+            --set image.registry=${{ vars.DOCKER_REGISTRY }} \
+            --set image.repository=travel-planner-api \
+            --set image.tag=${{ steps.maven.outputs.version }} \
+            --set name=travel-planner-api \
+            --set configmap.data.COSMOS_URI=${{ vars.DATABASE_URI }} \
+            --set configmap.data.COSMOS_DATABASE_NAME=${{ vars.DATABASE_NAME }} \
+            --set configmap.data.COSMOS_PRIMARY_KEY=${{ vars.DATABASE_SECRET }}
