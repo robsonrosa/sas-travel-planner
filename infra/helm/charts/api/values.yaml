@@ -1,0 +1,16 @@
+name: 
+replicaCount: 1
+configmap:
+  name: db-configmap
+  data:
+    COSMOS_URI: https://travel-service-account.documents.azure.com:443/
+    COSMOS_DATABASE_NAME: travel-planning
+secret:
+  name: db-secret
+  data:
+    COSMOS_PRIMARY_KEY: 
+    COSMOS_SECONDARY_KEY: 
+image: 
+  registry: sastravelplanneracr.azurecr.io
+  repository:
+  tag:  

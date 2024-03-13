@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: travel-planner-api
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}{{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+      labels:
+        app: travel-planner-api
+    spec:
+      containers:
+        - name: {{ .Values.name }}
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          env:
+            - name: ALLOWED_ORIGIN
+              value: http://www.sastravelplanner.online,http://sastravelplanner.online
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.configmap.name }}
+            - secretRef:
+                name: {{ .Values.secret.name }}
+          ports:
+            - containerPort: 8080 
+      imagePullSecrets:
+        - name: acr-secret

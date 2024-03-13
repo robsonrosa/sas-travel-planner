@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.configmap.name }}
+data:
+  COSMOS_URI: {{ .Values.configmap.data.COSMOS_URI }}
+  COSMOS_DATABASE_NAME: {{ .Values.configmap.data.COSMOS_DATABASE_NAME }}
