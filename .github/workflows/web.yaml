@@ -28,6 +28,8 @@ jobs:
         
       - name: NPM Setup
         uses: actions/setup-node@v1
+        with:
+          node-version: '16.20.*'
       
       - name: NPM Build
         run: |
