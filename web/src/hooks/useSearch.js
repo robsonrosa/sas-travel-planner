@@ -18,7 +18,6 @@ const headers = {
 };
 
 const useSearch = () => {
-  const [eventSource, setEventSource] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [result, setResult] = useState({
     started: false,
