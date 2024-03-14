@@ -22,7 +22,7 @@ jobs:
 
       - name: Set Version
         id: maven
-        run: echo "TAG=$(mvn -f api/pom.xml -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_ENV
+        run: echo "tag=$(mvn -f api/pom.xml -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_OUTPUT
 
       - name: Maven Setup
         uses: actions/setup-java@v3
@@ -38,6 +38,9 @@ jobs:
         with:
           name: build
           path: api/${{ env.API_ENTRYPOINT_ID }}/target/*.jar
+
+    outputs:
+      tag: ${{ steps.maven.outputs.tag }}
 
   push-image:
     needs: [ build ]
@@ -61,7 +64,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           container: ${{ env.API_ENTRYPOINT_NAME }}
-          tag: ${{ env.TAG }}
+          tag: ${{ needs.build.outputs.tag }}
           path: 'api'
 
   deploy:
@@ -88,7 +91,7 @@ jobs:
             --create-namespace \
             --set image.registry=${{ vars.DOCKER_REGISTRY }} \
             --set image.repository=travel-planner-api \
-            --set image.tag=${{ env.TAG }} \
+            --set image.tag=${{ needs.build.outputs.tag }} \
             --set name=travel-planner-api \
             --set configmap.data.COSMOS_URI=${{ vars.DATABASE_URI }} \
             --set configmap.data.COSMOS_DATABASE_NAME=${{ vars.DATABASE_NAME }} \
