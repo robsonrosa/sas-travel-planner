@@ -1,0 +1,66 @@
+name: Simple Deploy Travel Planner Web Application
+
+on:
+  push:
+    branches: 
+      - 'main'
+    paths:
+      - 'web/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    defaults:
+      run:
+        working-directory: ./web
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Get package info
+        id: package
+        uses: codex-team/action-nodejs-package-info@v1.1
+        
+      - name: NPM Setup
+        uses: actions/setup-node@v1
+      
+      - name: NPM Build
+        run: |
+          npm ci
+          npm run build
+
+      - name: Docker Setup
+        run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login ${{ vars.DOCKER_REGISTRY }} -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+
+      - name: Docker Build
+        run: docker build -t ${{ vars.DOCKER_REGISTRY }}/${{ steps.package.outputs.name }}:${{ steps.package.outputs.version }} .
+
+      - name: Docker Push
+        run: docker push ${{ vars.DOCKER_REGISTRY }}/travel-planner-api:${{ steps.package.outputs.version }}
+
+      - name: Azure Login
+        uses: Azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Azure Context
+        uses: Azure/aks-set-context@v2
+        with:
+          resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
+          cluster-name: ${{ secrets.AZURE_CLUSTER_NAME }}
+
+      - name: Helm Install
+        uses: Azure/setup-helm@v1
+        with:
+          version: v3.14.3
+
+      - name: Deploy Web Application
+        run: >-
+          helm upgrade --install travel-planner-web ./infra/helm/charts/web \
+            --namespace planner \
+            --create-namespace \
+            --set image.registry=${{ vars.DOCKER_REGISTRY }} \
+            --set image.tag=${{ steps.package.outputs.version }} \
+            --set name=travel-planner-web
