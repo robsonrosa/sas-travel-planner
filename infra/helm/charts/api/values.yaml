@@ -14,3 +14,5 @@ image:
   registry: 
   repository:
   tag:  
+network:
+  publicIp:

@@ -5,6 +5,8 @@ configmap:
   data:
     REACT_APP_SERVER_URL: travel-planner-api-service.planner.svc.cluster.local:80
 image: 
-  registry: sastravelplanneracr.azurecr.io
-  repository: travel-planner-web
+  registry: 
+  repository: 
   tag: 
+network:
+  publicIp:

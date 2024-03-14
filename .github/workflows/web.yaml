@@ -56,6 +56,9 @@ jobs:
           resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
           cluster-name: ${{ secrets.AZURE_CLUSTER_NAME }}
 
+      - name: Get Service IP Address
+        run: echo "IP_ADDRESS=$(az network dns record-set a show -g ${{ secrets.AZURE_RESOURCE_GROUP }} -z ${{ secrets.AZURE_DNS_ZONE }} -n @ --query 'ARecords[0].ipv4Address")'" >> $GITHUB_ENV
+
       - name: Helm Install
         uses: Azure/setup-helm@v1
         with:
@@ -68,4 +71,5 @@ jobs:
             --create-namespace \
             --set image.registry=${{ vars.DOCKER_REGISTRY }} \
             --set image.tag=${{ steps.package.outputs.version }} \
-            --set name=travel-planner-web
+            --set name=travel-planner-web \
+            --set network.publicIp=$IP_ADDRESS
