@@ -22,6 +22,8 @@ jobs:
       - name: Get package info
         id: package
         uses: codex-team/action-nodejs-package-info@v1.1
+        with:
+          path: ./web
         
       - name: NPM Setup
         uses: actions/setup-node@v1
