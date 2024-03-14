@@ -44,7 +44,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           container: ${{ steps.package.outputs.name }}
           tag: ${{ steps.package.outputs.version }}
-          path: "."
+          path: "web"
 
       - name: Azure Login
         uses: Azure/login@v1
