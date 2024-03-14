@@ -28,14 +28,30 @@ jobs:
         with:
           distribution: 'oracle'
           java-version: '21'
+          cache: maven
       
       - name: Maven Build
         run: mvn -f api/pom.xml clean install -DskipTests
+
+      - uses: actions/upload-artifact@v4.3.1
+        with:
+          name: build
+          path: api/target/*.jar
 
   push-image:
     needs: [ build ]
     runs-on: ubuntu-22.04
     steps:
+
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - uses: actions/download-artifact@master
+        with:
+          name: build
+          path: api/target
+
+      - run: ls api/target
 
       - name: Docker Build and Push
         uses: ./.github/actions/docker
@@ -52,6 +68,9 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
 
+      - name: Checkout
+        uses: actions/checkout@v3
+        
       - name: Azure Setup
         uses: ./.github/actions/azure
         with:
