@@ -1,0 +1,37 @@
+name: Docker
+description: Login to container registry, then build and push image
+
+inputs:
+  registry:
+    description: Registry contianer uri
+    required: true
+  username:
+    description: Username to login at container registry
+    required: true
+  password:
+    description: Password to login at container registry
+    required: true
+  container:
+    description: The name of the iamge container to be created
+    required: true
+  tag:
+    description: The tag of the created image
+    required: true
+  path:
+    description: Path to Dockerfile
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Docker Setup
+      run: echo ${{ inputs.password }} | docker login ${{ inputs.registry }} -u ${{ inputs.username }} --password-stdin
+      shell: bash
+
+    - name: Docker Build
+      run: cd ${{ inputs.path }} && docker build -t ${{ inputs.registry }}/${{ inputs.container }}:${{ inputs.tag }} .
+      shell: bash
+
+    - name: Docker Push
+      run: docker push ${{ inputs.registry }}/${{ inputs.container }}:${{ inputs.tag }}
+      shell: bash
