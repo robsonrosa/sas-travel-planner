@@ -6,6 +6,7 @@ on:
       - 'main'
     paths:
       - 'api/**'
+      - 'infra/helm/charts/api/**'
       - '.github/actions/azure/**'
       - '.github/actions/docker/**'
       - '.github/workflows/api.yaml'
@@ -52,7 +53,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       
-      - uses: actions/download-artifact@master
+      - uses: actions/download-artifact@v4.1.4
         with:
           name: build
           path: api/${{ env.API_ENTRYPOINT_ID }}/target

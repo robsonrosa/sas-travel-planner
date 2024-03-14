@@ -6,6 +6,7 @@ on:
       - 'main'
     paths:
       - 'web/**'
+      - 'infra/helm/charts/web/**'
       - '.github/actions/azure/**'
       - '.github/actions/docker/**'
       - '.github/workflows/web.yaml'
@@ -38,6 +39,16 @@ jobs:
           npm ci
           npm run build
 
+      - uses: actions/upload-artifact@v4.3.1
+        with:
+          name: build
+          path: web/build
+
+      - uses: actions/upload-artifact@v4.3.1
+        with:
+          name: chart
+          path: infra/helm/charts/web
+
     outputs:
       package-name: ${{ steps.package.outputs.name }}
       package-version: ${{ steps.package.outputs.version }}
@@ -47,8 +58,10 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
 
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/download-artifact@v4.1.4
+        with:
+          name: build
+          path: web/build
 
       - name: Docker Build and Push
         uses: ./.github/actions/docker
@@ -65,8 +78,10 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
 
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/download-artifact@v4.1.4
+        with:
+          name: chart
+          path: infra/helm/charts/web
         
       - name: Azure Setup
         id: azure
@@ -80,7 +95,7 @@ jobs:
 
       - name: Deploy Web Application
         run: >-
-          helm upgrade --install ${{ needs.build.outputs.package-name }} ../infra/helm/charts/web \
+          helm upgrade --install ${{ needs.build.outputs.package-name }} infra/helm/charts/web \
             --namespace planner \
             --create-namespace \
             --set image.registry=${{ vars.DOCKER_REGISTRY }} \
