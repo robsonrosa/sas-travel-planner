@@ -9,7 +9,7 @@ on:
       - '.github/workflows/api.yaml'
 
 env:
-  API_ENTRYPOINT_ID: 'travel-planner'
+  API_ENTRYPOINT_ID: 'travel-service'
   API_ENTRYPOINT_NAME: 'travel-planner-api'
 
 jobs:
@@ -32,7 +32,7 @@ jobs:
           cache: maven
       
       - name: Maven Build
-        run: mvn -f api/pom.xml clean install -DskipTests
+        run: mvn -f api/pom.xml --no-transfer-progress clean install -DskipTests
 
       - uses: actions/upload-artifact@v4.3.1
         with:
