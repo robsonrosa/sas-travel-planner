@@ -74,7 +74,7 @@ See [Official Documentation](../main/docs/README.md)
 - [x] Customize Dockerfiles to match Cloud requirements
 - [x] Deploy frontend application as nginx
 - [x] Create and configure AKS 
-- [ ] Create and configure Github Actions
+- [x] Create and configure Github Actions
 
 ### Phase 5 - Enhancements
 - [ ] Responsive design
@@ -86,3 +86,4 @@ See [Official Documentation](../main/docs/README.md)
 - [ ] Add SonarQube
 - [ ] Configure Static Public IP
 - [ ] Enable HTTPS
+- [ ] Cache node_modules across workflows
