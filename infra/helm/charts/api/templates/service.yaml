@@ -3,7 +3,8 @@ kind: Service
 metadata:
   name: "{{ .Values.name }}-service"
   annotations:
-     service.beta.kubernetes.io/azure-load-balancer-ipv4: {{ .Values.network.publicIp }}
+    service.beta.kubernetes.io/azure-load-balancer-resource-group: {{ .Values.resourceGroup }}
+    service.beta.kubernetes.io/azure-pip-name: {{ .Values.network.publicIp }}
 spec:
   selector:
     app: travel-planner-api

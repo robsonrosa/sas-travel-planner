@@ -98,4 +98,5 @@ jobs:
             --set image.repository=${{ needs.build.outputs.package-name }} \
             --set image.tag=${{ needs.build.outputs.package-version }} \
             --set name=${{ needs.build.outputs.package-name }} \
-            --set network.publicIp=${{ steps.azure.outputs.ip-address }}
+            --set publicIpName=web-ip \
+            --set resourceGroup=${{ secrets.AZURE_RESOURCE_GROUP }}

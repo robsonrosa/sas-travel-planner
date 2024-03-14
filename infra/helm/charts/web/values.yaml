@@ -8,5 +8,5 @@ image:
   registry: 
   repository: 
   tag: 
-network:
-  publicIp:
+resourceGroup: 
+publicIpName:

@@ -3,6 +3,11 @@ variable "resource_group_name" {
   description = "Resource group name to create the database"
 }
 
+variable "location" {
+  type        = string
+  description = "Resource group location"
+}
+
 variable "public_domain" {
   type        = string
   default     = "sastravelplanner.online"

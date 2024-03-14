@@ -20,6 +20,7 @@ module "aks" {
 
 module "dns" {
   source              = "./dns"
+  location            = var.location
   resource_group_name = var.resource_group_name
 }
 
