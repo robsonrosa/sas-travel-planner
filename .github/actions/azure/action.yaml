@@ -18,6 +18,11 @@ inputs:
     description: The A Record identifier to get the ip address
     required: true
 
+outputs:
+  ip-address:
+    value: ${{ steps.get-ip-address.outputs.ip-address }}
+    description: The IP Address for the requested A record
+
 runs:
   using: composite
   steps:
@@ -33,7 +38,8 @@ runs:
         cluster-name: ${{ inputs.cluster-name }}
 
     - name: Get Service IP Address
-      run: echo "IP_ADDRESS=$(az network dns record-set a show -g ${{ inputs.resource-group }} -z ${{ inputs.dns-zone }} -n ${{ inputs.a-record }} --query 'ARecords[0].ipv4Address' --output tsv)" >> $GITHUB_ENV
+      id: get-ip-address
+      run: echo "ip-address=$(az network dns record-set a show -g ${{ inputs.resource-group }} -z ${{ inputs.dns-zone }} -n ${{ inputs.a-record }} --query 'ARecords[0].ipv4Address' --output tsv)" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: Helm Install

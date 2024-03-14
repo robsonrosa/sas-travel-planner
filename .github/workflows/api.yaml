@@ -76,6 +76,7 @@ jobs:
         uses: actions/checkout@v3
         
       - name: Azure Setup
+        id: azure
         uses: ./.github/actions/azure
         with:
           credentials: ${{ secrets.AZURE_CREDENTIALS }}
@@ -96,4 +97,4 @@ jobs:
             --set configmap.data.COSMOS_URI=${{ vars.DATABASE_URI }} \
             --set configmap.data.COSMOS_DATABASE_NAME=${{ vars.DATABASE_NAME }} \
             --set secret.data.COSMOS_PRIMARY_KEY=${{ vars.DATABASE_SECRET }} \
-            --set network.publicIp=$IP_ADDRESS
+            --set network.publicIp=${{ steps.azure.outputs.ip-address }}
