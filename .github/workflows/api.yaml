@@ -6,6 +6,8 @@ on:
       - 'main'
     paths:
       - 'api/**'
+      - '.github/actions/azure/**'
+      - '.github/actions/docker/**'
       - '.github/workflows/api.yaml'
 
 env:

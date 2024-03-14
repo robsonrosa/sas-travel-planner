@@ -6,6 +6,8 @@ on:
       - 'main'
     paths:
       - 'web/**'
+      - '.github/actions/azure/**'
+      - '.github/actions/docker/**'
       - '.github/workflows/web.yaml'
 
 jobs:
@@ -45,6 +47,9 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
 
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Docker Build and Push
         uses: ./.github/actions/docker
         with:
@@ -60,6 +65,9 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
 
+      - name: Checkout
+        uses: actions/checkout@v3
+        
       - name: Azure Setup
         id: azure
         uses: ./.github/actions/azure
