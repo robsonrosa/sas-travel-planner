@@ -10,14 +10,15 @@ on:
 
 env:
   API_ENTRYPOINT_NAME: 'travel-planner-api'
-      
+
 jobs:
   build:
     runs-on: ubuntu-22.04
     steps:
+
       - name: Checkout
         uses: actions/checkout@v3
-    
+
       - name: Set Version
         id: maven
         run: echo "TAG=$(mvn -f api/pom.xml -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_ENV
@@ -31,6 +32,11 @@ jobs:
       - name: Maven Build
         run: mvn -f api/pom.xml clean install -DskipTests
 
+  push-image:
+    needs: [ build ]
+    runs-on: ubuntu-22.04
+    steps:
+
       - name: Docker Build and Push
         uses: ./.github/actions/docker
         with:
@@ -40,6 +46,11 @@ jobs:
           container: ${{ env.API_ENTRYPOINT_NAME }}
           tag: ${{ env.TAG }}
           path: 'api'
+
+  deploy:
+    needs: [ build, push-image ]
+    runs-on: ubuntu-22.04
+    steps:
 
       - name: Azure Setup
         uses: ./.github/actions/azure
