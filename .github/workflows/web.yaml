@@ -63,7 +63,7 @@ jobs:
 
       - name: Deploy Web Application
         run: >-
-          helm upgrade --install travel-planner-web ./infra/helm/charts/web \
+          helm upgrade --install travel-planner-web ../infra/helm/charts/web \
             --namespace planner \
             --create-namespace \
             --set image.registry=${{ vars.DOCKER_REGISTRY }} \
