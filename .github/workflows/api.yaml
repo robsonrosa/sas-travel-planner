@@ -9,6 +9,7 @@ on:
       - '.github/workflows/api.yaml'
 
 env:
+  API_ENTRYPOINT_ID: 'travel-planner'
   API_ENTRYPOINT_NAME: 'travel-planner-api'
 
 jobs:
@@ -36,7 +37,7 @@ jobs:
       - uses: actions/upload-artifact@v4.3.1
         with:
           name: build
-          path: api/target/*.jar
+          path: api/${{ env.API_ENTRYPOINT_ID }}/target/*.jar
 
   push-image:
     needs: [ build ]
@@ -49,9 +50,9 @@ jobs:
       - uses: actions/download-artifact@master
         with:
           name: build
-          path: api/target
+          path: api/${{ env.API_ENTRYPOINT_ID }}/target
 
-      - run: ls api/target
+      - run: ls api/${{ env.API_ENTRYPOINT_ID }}/target
 
       - name: Docker Build and Push
         uses: ./.github/actions/docker
