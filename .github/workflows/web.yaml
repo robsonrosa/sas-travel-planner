@@ -44,16 +44,6 @@ jobs:
           name: build
           path: web/build
 
-      - uses: actions/upload-artifact@v4.3.1
-        with:
-          name: chart
-          path: infra/helm/charts/web
-
-      - uses: actions/upload-artifact@v4.3.1
-        with:
-          name: shared-actions
-          path: .github/actions
-
     outputs:
       package-name: ${{ steps.package.outputs.name }}
       package-version: ${{ steps.package.outputs.version }}
@@ -63,10 +53,8 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
 
-      - uses: actions/download-artifact@v4.1.4
-        with:
-          name: shared-actions
-          path: .github/actions
+      - name: Checkout
+        uses: actions/checkout@v3
 
       - uses: actions/download-artifact@v4.1.4
         with:
@@ -88,16 +76,9 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
 
-      - uses: actions/download-artifact@v4.1.4
-        with:
-          name: shared-actions
-          path: .github/actions
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - uses: actions/download-artifact@v4.1.4
-        with:
-          name: chart
-          path: infra/helm/charts/web
-        
       - name: Azure Setup
         id: azure
         uses: ./.github/actions/azure
