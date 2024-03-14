@@ -46,24 +46,14 @@ jobs:
           tag: ${{ steps.package.outputs.version }}
           path: 'web'
 
-      - name: Azure Login
-        uses: Azure/login@v1
+      - name: Azure Setup
+        uses: ./.github/actions/azure
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Azure Context
-        uses: Azure/aks-set-context@v2
-        with:
+          credentials: ${{ secrets.AZURE_CREDENTIALS }}
           resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
           cluster-name: ${{ secrets.AZURE_CLUSTER_NAME }}
-
-      - name: Get Service IP Address
-        run: echo "IP_ADDRESS=$(az network dns record-set a show -g ${{ secrets.AZURE_RESOURCE_GROUP }} -z ${{ secrets.AZURE_DNS_ZONE }} -n @ --query 'ARecords[0].ipv4Address' --output tsv)" >> $GITHUB_ENV
-
-      - name: Helm Install
-        uses: Azure/setup-helm@v1
-        with:
-          version: v3.14.3
+          dns-zone: ${{ secrets.AZURE_DNS_ZONE }}
+          a-record: '@'
 
       - name: Deploy Web Application
         run: >-

@@ -1,0 +1,42 @@
+name: Azure
+description: Login to azure, then set context, install Helm and set public ip address to env
+
+inputs:
+  credentials:
+    description: Azure credentials object
+    required: true
+  resource-group:
+    description: Azure resource-group considering that everything is in the same resource group
+    required: true
+  cluster-name:
+    description: The name of the AKS cluster
+    required: true
+  dns-zone:
+    description: The name of the Azure DNS Zone
+    required: true
+  a-record:
+    description: The A Record identifier to get the ip address
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Azure Login
+      uses: Azure/login@v1
+      with:
+        creds: ${{ inputs.credentials }}
+
+    - name: Azure Context
+      uses: Azure/aks-set-context@v2
+      with:
+        resource-group: ${{ inputs.resource-group }}
+        cluster-name: ${{ inputs.cluster-name }}
+
+    - name: Get Service IP Address
+      run: echo "IP_ADDRESS=$(az network dns record-set a show -g ${{ inputs.resource-group }} -z ${{ inputs.dns-zone }} -n ${{ inputs.a-record }} --query 'ARecords[0].ipv4Address' --output tsv)" >> $GITHUB_ENV
+      shell: bash
+
+    - name: Helm Install
+      uses: Azure/setup-helm@v1
+      with:
+        version: v3.14.3
