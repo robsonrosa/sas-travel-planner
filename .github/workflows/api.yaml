@@ -14,10 +14,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
     
-      - name: Set Branch
-        id: branch
-        run: echo ::set-output name=branch::${GITHUB_REF#/refs/heads/}
-      
       - name: Set Version
         id: maven
         run: echo ::set-output name=version::$(mvn -f api/pom.xml -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
