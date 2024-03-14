@@ -8,6 +8,9 @@ on:
       - 'api/**'
       - '.github/workflows/api.yaml'
 
+env:
+  API_ENTRYPOINT_NAME: 'travel-planner-api'
+      
 jobs:
   build:
     runs-on: ubuntu-22.04
@@ -28,14 +31,15 @@ jobs:
       - name: Maven Build
         run: mvn -f api/pom.xml clean install -DskipTests
 
-      - name: Docker Setup
-        run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login ${{ vars.DOCKER_REGISTRY }} -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-
-      - name: Docker Build
-        run: cd api && docker build -t ${{ vars.DOCKER_REGISTRY }}/travel-planner-api:${{ steps.maven.outputs.version }} .
-
-      - name: Docker Push
-        run: docker push ${{ vars.DOCKER_REGISTRY }}/travel-planner-api:${{ steps.maven.outputs.version }}
+      - name: Docker Build and Push
+        uses: ./.github/actions/docker
+        with:
+          registry: ${{ vars.DOCKER_REGISTRY }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          container: ${{ env.API_ENTRYPOINT_NAME }}
+          tag: ${{ steps.maven.outputs.version }}
+          path: 'api'
 
       - name: Azure Login
         uses: Azure/login@v1
