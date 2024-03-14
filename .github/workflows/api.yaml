@@ -20,7 +20,7 @@ jobs:
     
       - name: Set Version
         id: maven
-        run: echo ::set-output name=version::$(mvn -f api/pom.xml -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
+        run: echo "TAG=$(mvn -f api/pom.xml -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_ENV
 
       - name: Maven Setup
         uses: actions/setup-java@v3
@@ -38,7 +38,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           container: ${{ env.API_ENTRYPOINT_NAME }}
-          tag: ${{ steps.maven.outputs.version }}
+          tag: ${{ env.TAG }}
           path: 'api'
 
       - name: Azure Setup
@@ -57,7 +57,7 @@ jobs:
             --create-namespace \
             --set image.registry=${{ vars.DOCKER_REGISTRY }} \
             --set image.repository=travel-planner-api \
-            --set image.tag=${{ steps.maven.outputs.version }} \
+            --set image.tag=${{ env.TAG }} \
             --set name=travel-planner-api \
             --set configmap.data.COSMOS_URI=${{ vars.DATABASE_URI }} \
             --set configmap.data.COSMOS_DATABASE_NAME=${{ vars.DATABASE_NAME }} \
