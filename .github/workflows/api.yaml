@@ -49,7 +49,7 @@ jobs:
           cluster-name: ${{ secrets.AZURE_CLUSTER_NAME }}
 
       - name: Get Service IP Address
-        run: echo "IP_ADDRESS=$(az network dns record-set a show -g ${{ secrets.AZURE_RESOURCE_GROUP }} -z ${{ secrets.AZURE_DNS_ZONE }} -n api --query 'ARecords[0].ipv4Address")'" >> $GITHUB_ENV
+        run: echo "IP_ADDRESS=$(az network dns record-set a show -g ${{ secrets.AZURE_RESOURCE_GROUP }} -z ${{ secrets.AZURE_DNS_ZONE }} -n api --query 'ARecords[0].ipv4Address")' --output tsv" >> $GITHUB_ENV
   
       - name: Helm Install
         uses: Azure/setup-helm@v1
