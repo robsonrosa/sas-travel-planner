@@ -1,3 +1,7 @@
+[![Deploy Web](https://github.com/robsonrosa/sas-travel-planner/actions/workflows/web.yaml/badge.svg)](https://github.com/robsonrosa/sas-travel-planner/actions/workflows/web.yaml)
+
+[![Deploy API](https://github.com/robsonrosa/sas-travel-planner/actions/workflows/api.yaml/badge.svg)](https://github.com/robsonrosa/sas-travel-planner/actions/workflows/api.yaml)
+
 # SAS Travel Planner
 
 ## Overview
@@ -84,6 +88,11 @@ See [Official Documentation](../main/docs/README.md)
 - [ ] Consider using Azure Key Vault
 - [ ] Add repository badges
 - [ ] Add SonarQube
-- [ ] Configure Static Public IP
+- [x] Configure Static Public IP
 - [ ] Enable HTTPS
 - [ ] Cache node_modules across workflows
+- [ ] Create pipeline for release branch (deploy to staging)
+- [ ] Create git tag version when changing main branch
+- [ ] Create jobs for code analysis and tests
+- [ ] Implement authentication with Auth0 provider
+- [ ] Improve docuementation
