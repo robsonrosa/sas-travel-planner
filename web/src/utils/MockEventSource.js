@@ -204,7 +204,7 @@ const mockData = [
 export const setupMockSSE = (interval) => {
 
   new MockEvent({
-    url: `${process.env.REACT_APP_SERVER_URL}/api/travel`,
+    url: `${process.env.REACT_APP_SERVER_URL}/api/v1/travel`,
     setInterval: interval,
     responses: mockData
   });

@@ -37,7 +37,7 @@ jobs:
       - name: NPM Build
         run: |
           npm ci
-          REACT_APP_SERVER_URL=api.sastravelplanner.online npm run build
+          NODE_ENV=production REACT_APP_SERVER_URL=api.sastravelplanner.online npm run build
 
       - uses: actions/upload-artifact@v4.3.1
         with:
