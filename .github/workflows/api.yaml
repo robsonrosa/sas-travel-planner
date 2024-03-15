@@ -1,4 +1,4 @@
-name: Simple Deploy Travel Planner API
+name: Deploy API
 
 on:
   push:

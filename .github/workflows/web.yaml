@@ -1,4 +1,4 @@
-name: Simple Deploy Travel Planner Web Application
+name: Deploy Web
 
 on:
   push:
