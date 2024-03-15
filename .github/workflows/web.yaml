@@ -11,6 +11,9 @@ on:
       - '.github/actions/docker/**'
       - '.github/workflows/web.yaml'
 
+env:
+  REACT_APP_SERVER_URL: api.sastravelplanner.online
+
 jobs:
   build:
     runs-on: ubuntu-22.04
