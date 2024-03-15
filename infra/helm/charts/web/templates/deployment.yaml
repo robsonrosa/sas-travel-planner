@@ -15,9 +15,6 @@ spec:
       containers:
         - name: {{ .Values.name }}
           image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          envFrom:
-            - configMapRef:
-                name: {{ .Values.configmap.name }}
           ports:
             - containerPort: 80
       imagePullSecrets:

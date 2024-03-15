@@ -11,9 +11,6 @@ on:
       - '.github/actions/docker/**'
       - '.github/workflows/web.yaml'
 
-env:
-  REACT_APP_SERVER_URL: api.sastravelplanner.online
-
 jobs:
   build:
     runs-on: ubuntu-22.04
@@ -40,7 +37,7 @@ jobs:
       - name: NPM Build
         run: |
           npm ci
-          npm run build
+          REACT_APP_SERVER_URL=api.sastravelplanner.online npm run build
 
       - uses: actions/upload-artifact@v4.3.1
         with:
