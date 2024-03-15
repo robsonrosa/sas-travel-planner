@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: db-configmap
-data:
-  COSMOS_URI: https://travel-service-account.documents.azure.com:443/
-  COSMOS_DATABASE_NAME: travel-planning

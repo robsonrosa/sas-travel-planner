@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: web-configmap
-data:
-  REACT_APP_SERVER_URL: travel-planner-api-service.planner.svc.cluster.local:80
