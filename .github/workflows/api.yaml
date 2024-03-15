@@ -101,4 +101,5 @@ jobs:
             --set configmap.data.COSMOS_DATABASE_NAME=${{ vars.DATABASE_NAME }} \
             --set secret.data.COSMOS_PRIMARY_KEY=${{ vars.DATABASE_SECRET }} \
             --set publicIpName=api-ip \
-            --set resourceGroup=${{ secrets.AZURE_RESOURCE_GROUP }}
+            --set resourceGroup=${{ secrets.AZURE_RESOURCE_GROUP }} \
+            --set allowedOrigins="http://${{ vars.PUBLIC_DOMAIN }},http://www.${{ vars.PUBLIC_DOMAIN }}"

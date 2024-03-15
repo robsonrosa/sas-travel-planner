@@ -1,5 +1,6 @@
 package br.com.sas.travel.planner.configuration;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +11,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Configuration
 public class CorsGlobalConfiguration {
 
@@ -18,6 +22,7 @@ public class CorsGlobalConfiguration {
 
 	@Bean
 	CorsWebFilter corsWebFilter() {
+		log.info("ALLOWED ORIGINS: " + allowedOrigins);
 		var corsConfig = new CorsConfiguration();
 		corsConfig.setAllowedOrigins(allowedOrigins);
 		corsConfig.addAllowedMethod("GET");

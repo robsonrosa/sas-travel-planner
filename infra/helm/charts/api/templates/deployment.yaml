@@ -10,7 +10,6 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}{{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
       labels:
         app: travel-planner-api
     spec:
@@ -18,8 +17,8 @@ spec:
         - name: {{ .Values.name }}
           image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           env:
-            - name: ALLOWED_ORIGIN
-              value: http://www.sastravelplanner.online,http://sastravelplanner.online
+            - name: ALLOWED_ORIGINS
+              value: {{ .Values.allowedOrigins }}
           envFrom:
             - configMapRef:
                 name: {{ .Values.configmap.name }}
